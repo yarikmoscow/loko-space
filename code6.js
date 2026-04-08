@@ -1,26 +1,18 @@
-gdjs.SettingsCode = {};
-gdjs.SettingsCode.localVariables = [];
-gdjs.SettingsCode.idToCallbackMap = new Map();
-gdjs.SettingsCode.GDNewSpriteObjects1= [];
-gdjs.SettingsCode.GDNewSpriteObjects2= [];
-gdjs.SettingsCode.GD_951052_951059_951047_951067_951050_951040Objects1= [];
-gdjs.SettingsCode.GD_951052_951059_951047_951067_951050_951040Objects2= [];
-gdjs.SettingsCode.GD_951053_951040_951057_951058_951056_951054_951048_951050_951040Objects1= [];
-gdjs.SettingsCode.GD_951053_951040_951057_951058_951056_951054_951048_951050_951040Objects2= [];
-gdjs.SettingsCode.GDBtnMusicToggleObjects1= [];
-gdjs.SettingsCode.GDBtnMusicToggleObjects2= [];
-gdjs.SettingsCode.GDBtnBackObjects1= [];
-gdjs.SettingsCode.GDBtnBackObjects2= [];
-gdjs.SettingsCode.GDSFXObjects1= [];
-gdjs.SettingsCode.GDSFXObjects2= [];
-gdjs.SettingsCode.GDBtnSfxToggleObjects1= [];
-gdjs.SettingsCode.GDBtnSfxToggleObjects2= [];
+gdjs.Cutscene1Code = {};
+gdjs.Cutscene1Code.localVariables = [];
+gdjs.Cutscene1Code.idToCallbackMap = new Map();
+gdjs.Cutscene1Code.GDNewSpriteObjects1= [];
+gdjs.Cutscene1Code.GDNewSpriteObjects2= [];
+gdjs.Cutscene1Code.GDNewTextObjects1= [];
+gdjs.Cutscene1Code.GDNewTextObjects2= [];
+gdjs.Cutscene1Code.GDBtnContinueObjects1= [];
+gdjs.Cutscene1Code.GDBtnContinueObjects2= [];
 
 
-gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnBackObjects1Objects = Hashtable.newFrom({"BtnBack": gdjs.SettingsCode.GDBtnBackObjects1});
-gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnMusicToggleObjects1Objects = Hashtable.newFrom({"BtnMusicToggle": gdjs.SettingsCode.GDBtnMusicToggleObjects1});
-gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnSfxToggleObjects1Objects = Hashtable.newFrom({"BtnSfxToggle": gdjs.SettingsCode.GDBtnSfxToggleObjects1});
-gdjs.SettingsCode.eventsList0 = function(runtimeScene) {
+gdjs.Cutscene1Code.mapOfGDgdjs_9546Cutscene1Code_9546GDBtnContinueObjects1Objects = Hashtable.newFrom({"BtnContinue": gdjs.Cutscene1Code.GDBtnContinueObjects1});
+gdjs.Cutscene1Code.mapOfGDgdjs_9546Cutscene1Code_9546GDBtnContinueObjects1Objects = Hashtable.newFrom({"BtnContinue": gdjs.Cutscene1Code.GDBtnContinueObjects1});
+gdjs.Cutscene1Code.mapOfGDgdjs_9546Cutscene1Code_9546GDBtnContinueObjects1Objects = Hashtable.newFrom({"BtnContinue": gdjs.Cutscene1Code.GDBtnContinueObjects1});
+gdjs.Cutscene1Code.eventsList0 = function(runtimeScene) {
 
 {
 
@@ -29,39 +21,25 @@ let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
-isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(7).getAsNumber() == 1);
+gdjs.copyArray(runtimeScene.getObjects("BtnContinue"), gdjs.Cutscene1Code.GDBtnContinueObjects1);
+gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene1Code.GDNewTextObjects1);
+{gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
+}
+{runtimeScene.getScene().getVariables().getFromIndex(3).setNumber(0);
+}
+{runtimeScene.getScene().getVariables().getFromIndex(4).setString("");
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDNewTextObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDNewTextObjects1[i].getBehavior("Text").setText("");
 }
 }
-if (isConditionTrue_0) {
-gdjs.copyArray(runtimeScene.getObjects("BtnMusicToggle"), gdjs.SettingsCode.GDBtnMusicToggleObjects1);
-{for(var i = 0, len = gdjs.SettingsCode.GDBtnMusicToggleObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDBtnMusicToggleObjects1[i].getBehavior("Animation").setAnimationName("вкл");
+{runtimeScene.getScene().getVariables().getFromIndex(5).setNumber(1);
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDBtnContinueObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDBtnContinueObjects1[i].hide();
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "StartMenu.ogg", 0, true, 70, 1);
-}
-}
-
-}
-
-
-{
-
-
-let isConditionTrue_0 = false;
-isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
-if (isConditionTrue_0) {
-isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(7).getAsNumber() == 0);
-}
-}
-if (isConditionTrue_0) {
-gdjs.copyArray(runtimeScene.getObjects("BtnMusicToggle"), gdjs.SettingsCode.GDBtnMusicToggleObjects1);
-{for(var i = 0, len = gdjs.SettingsCode.GDBtnMusicToggleObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDBtnMusicToggleObjects1[i].getBehavior("Animation").setAnimationName("выкл");
-}
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, false, 70, 1);
 }
 }
 
@@ -73,16 +51,22 @@ gdjs.copyArray(runtimeScene.getObjects("BtnMusicToggle"), gdjs.SettingsCode.GDBt
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "TypeTimer") > 0.03;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(8).getAsNumber() == 1);
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(3).getAsNumber() < gdjs.evtTools.string.strLen(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(0))));
 }
 }
 if (isConditionTrue_0) {
-gdjs.copyArray(runtimeScene.getObjects("BtnSfxToggle"), gdjs.SettingsCode.GDBtnSfxToggleObjects1);
-{for(var i = 0, len = gdjs.SettingsCode.GDBtnSfxToggleObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDBtnSfxToggleObjects1[i].getBehavior("Animation").setAnimationName("вкл");
+gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene1Code.GDNewTextObjects1);
+{gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
+}
+{runtimeScene.getScene().getVariables().getFromIndex(3).add(1);
+}
+{runtimeScene.getScene().getVariables().getFromIndex(4).setString(gdjs.evtTools.string.subStr(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(0)), 0, gdjs.evtTools.variable.getVariableNumber(runtimeScene.getScene().getVariables().getFromIndex(3))));
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDNewTextObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDNewTextObjects1[i].getBehavior("Text").setText(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(4)));
 }
 }
 }
@@ -95,16 +79,12 @@ gdjs.copyArray(runtimeScene.getObjects("BtnSfxToggle"), gdjs.SettingsCode.GDBtnS
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
-if (isConditionTrue_0) {
-isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(8).getAsNumber() == 0);
-}
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(3).getAsNumber() >= gdjs.evtTools.string.strLen(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(0))));
 }
 if (isConditionTrue_0) {
-gdjs.copyArray(runtimeScene.getObjects("BtnSfxToggle"), gdjs.SettingsCode.GDBtnSfxToggleObjects1);
-{for(var i = 0, len = gdjs.SettingsCode.GDBtnSfxToggleObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDBtnSfxToggleObjects1[i].getBehavior("Animation").setAnimationName("выкл");
+gdjs.copyArray(runtimeScene.getObjects("BtnContinue"), gdjs.Cutscene1Code.GDBtnContinueObjects1);
+{for(var i = 0, len = gdjs.Cutscene1Code.GDBtnContinueObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDBtnContinueObjects1[i].hide(false);
 }
 }
 }
@@ -114,56 +94,34 @@ gdjs.copyArray(runtimeScene.getObjects("BtnSfxToggle"), gdjs.SettingsCode.GDBtnS
 
 {
 
-gdjs.copyArray(runtimeScene.getObjects("BtnBack"), gdjs.SettingsCode.GDBtnBackObjects1);
+gdjs.copyArray(runtimeScene.getObjects("BtnContinue"), gdjs.Cutscene1Code.GDBtnContinueObjects1);
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.cursorOnObject(gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnBackObjects1Objects, runtimeScene, true, false);
-if (isConditionTrue_0) {
-isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonPressed(runtimeScene, "Left");
-}
-if (isConditionTrue_0) {
-{gdjs.evtTools.runtimeScene.replaceScene(runtimeScene, "StartMenu", false);
-}
-}
-
-}
-
-
-{
-
-gdjs.copyArray(runtimeScene.getObjects("BtnMusicToggle"), gdjs.SettingsCode.GDBtnMusicToggleObjects1);
-
-let isConditionTrue_0 = false;
-isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.cursorOnObject(gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnMusicToggleObjects1Objects, runtimeScene, true, false);
+isConditionTrue_0 = gdjs.evtTools.input.cursorOnObject(gdjs.Cutscene1Code.mapOfGDgdjs_9546Cutscene1Code_9546GDBtnContinueObjects1Objects, runtimeScene, true, false);
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonReleased(runtimeScene, "Left");
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(5).getAsNumber() == 3);
 }
 if (isConditionTrue_0) {
-/* Reuse gdjs.SettingsCode.GDBtnMusicToggleObjects1 */
-{runtimeScene.getGame().getVariables().getFromIndex(7).setNumber(1 - gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)));
+isConditionTrue_0 = false;
+for (var i = 0, k = 0, l = gdjs.Cutscene1Code.GDBtnContinueObjects1.length;i<l;++i) {
+    if ( gdjs.Cutscene1Code.GDBtnContinueObjects1[i].isVisible() ) {
+        isConditionTrue_0 = true;
+        gdjs.Cutscene1Code.GDBtnContinueObjects1[k] = gdjs.Cutscene1Code.GDBtnContinueObjects1[i];
+        ++k;
+    }
 }
-{gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
-}
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "StartMenu.ogg", 0, true, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
-}
-{for(var i = 0, len = gdjs.SettingsCode.GDBtnMusicToggleObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDBtnMusicToggleObjects1[i].getBehavior("Animation").setAnimationIndex(1 - gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)));
+gdjs.Cutscene1Code.GDBtnContinueObjects1.length = k;
 }
 }
 }
-
+if (isConditionTrue_0) {
+{gdjs.evtTools.runtimeScene.replaceScene(runtimeScene, "Game", false);
 }
-
-
-{
-
-
-let isConditionTrue_0 = false;
-{
 }
 
 }
@@ -171,24 +129,56 @@ let isConditionTrue_0 = false;
 
 {
 
-gdjs.copyArray(runtimeScene.getObjects("BtnSfxToggle"), gdjs.SettingsCode.GDBtnSfxToggleObjects1);
+gdjs.copyArray(runtimeScene.getObjects("BtnContinue"), gdjs.Cutscene1Code.GDBtnContinueObjects1);
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.cursorOnObject(gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnSfxToggleObjects1Objects, runtimeScene, true, false);
+isConditionTrue_0 = gdjs.evtTools.input.cursorOnObject(gdjs.Cutscene1Code.mapOfGDgdjs_9546Cutscene1Code_9546GDBtnContinueObjects1Objects, runtimeScene, true, false);
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonReleased(runtimeScene, "Left");
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(5).getAsNumber() == 1);
 }
 if (isConditionTrue_0) {
-/* Reuse gdjs.SettingsCode.GDBtnSfxToggleObjects1 */
-{runtimeScene.getGame().getVariables().getFromIndex(8).setNumber(1 - gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)));
+isConditionTrue_0 = false;
+for (var i = 0, k = 0, l = gdjs.Cutscene1Code.GDBtnContinueObjects1.length;i<l;++i) {
+    if ( gdjs.Cutscene1Code.GDBtnContinueObjects1[i].isVisible() ) {
+        isConditionTrue_0 = true;
+        gdjs.Cutscene1Code.GDBtnContinueObjects1[k] = gdjs.Cutscene1Code.GDBtnContinueObjects1[i];
+        ++k;
+    }
 }
-{for(var i = 0, len = gdjs.SettingsCode.GDBtnSfxToggleObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDBtnSfxToggleObjects1[i].getBehavior("Animation").setAnimationIndex(1 - gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)));
+gdjs.Cutscene1Code.GDBtnContinueObjects1.length = k;
 }
 }
-{gdjs.evtTools.sound.playMusic(runtimeScene, "sounds/kamen1.mp3", false, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)), 1);
+}
+if (isConditionTrue_0) {
+/* Reuse gdjs.Cutscene1Code.GDBtnContinueObjects1 */
+gdjs.copyArray(runtimeScene.getObjects("NewSprite"), gdjs.Cutscene1Code.GDNewSpriteObjects1);
+gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene1Code.GDNewTextObjects1);
+{runtimeScene.getScene().getVariables().getFromIndex(5).setNumber(2);
+}
+{runtimeScene.getScene().getVariables().getFromIndex(3).setNumber(0);
+}
+{runtimeScene.getScene().getVariables().getFromIndex(0).setString(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(1)));
+}
+{runtimeScene.getScene().getVariables().getFromIndex(4).setString("");
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDNewTextObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDNewTextObjects1[i].getBehavior("Text").setText("");
+}
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDBtnContinueObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDBtnContinueObjects1[i].hide();
+}
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDNewSpriteObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDNewSpriteObjects1[i].getBehavior("Animation").setAnimationName("cat1_2");
+}
+}
+{gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
 }
 }
 
@@ -197,9 +187,57 @@ if (isConditionTrue_0) {
 
 {
 
+gdjs.copyArray(runtimeScene.getObjects("BtnContinue"), gdjs.Cutscene1Code.GDBtnContinueObjects1);
 
 let isConditionTrue_0 = false;
-{
+isConditionTrue_0 = false;
+isConditionTrue_0 = gdjs.evtTools.input.cursorOnObject(gdjs.Cutscene1Code.mapOfGDgdjs_9546Cutscene1Code_9546GDBtnContinueObjects1Objects, runtimeScene, true, false);
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonReleased(runtimeScene, "Left");
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+{isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(5).getAsNumber() == 2);
+}
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+for (var i = 0, k = 0, l = gdjs.Cutscene1Code.GDBtnContinueObjects1.length;i<l;++i) {
+    if ( gdjs.Cutscene1Code.GDBtnContinueObjects1[i].isVisible() ) {
+        isConditionTrue_0 = true;
+        gdjs.Cutscene1Code.GDBtnContinueObjects1[k] = gdjs.Cutscene1Code.GDBtnContinueObjects1[i];
+        ++k;
+    }
+}
+gdjs.Cutscene1Code.GDBtnContinueObjects1.length = k;
+}
+}
+}
+if (isConditionTrue_0) {
+/* Reuse gdjs.Cutscene1Code.GDBtnContinueObjects1 */
+gdjs.copyArray(runtimeScene.getObjects("NewSprite"), gdjs.Cutscene1Code.GDNewSpriteObjects1);
+gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene1Code.GDNewTextObjects1);
+{runtimeScene.getScene().getVariables().getFromIndex(5).setNumber(3);
+}
+{runtimeScene.getScene().getVariables().getFromIndex(3).setNumber(0);
+}
+{runtimeScene.getScene().getVariables().getFromIndex(0).setString(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(2)));
+}
+{runtimeScene.getScene().getVariables().getFromIndex(4).setString("");
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDNewTextObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDNewTextObjects1[i].getBehavior("Text").setText("");
+}
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDBtnContinueObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDBtnContinueObjects1[i].hide();
+}
+}
+{for(var i = 0, len = gdjs.Cutscene1Code.GDNewSpriteObjects1.length ;i < len;++i) {
+    gdjs.Cutscene1Code.GDNewSpriteObjects1[i].getBehavior("Animation").setAnimationName("cat1_3");
+}
+}
+{gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
+}
 }
 
 }
@@ -207,43 +245,27 @@ let isConditionTrue_0 = false;
 
 };
 
-gdjs.SettingsCode.func = function(runtimeScene) {
+gdjs.Cutscene1Code.func = function(runtimeScene) {
 runtimeScene.getOnceTriggers().startNewFrame();
 
-gdjs.SettingsCode.GDNewSpriteObjects1.length = 0;
-gdjs.SettingsCode.GDNewSpriteObjects2.length = 0;
-gdjs.SettingsCode.GD_951052_951059_951047_951067_951050_951040Objects1.length = 0;
-gdjs.SettingsCode.GD_951052_951059_951047_951067_951050_951040Objects2.length = 0;
-gdjs.SettingsCode.GD_951053_951040_951057_951058_951056_951054_951048_951050_951040Objects1.length = 0;
-gdjs.SettingsCode.GD_951053_951040_951057_951058_951056_951054_951048_951050_951040Objects2.length = 0;
-gdjs.SettingsCode.GDBtnMusicToggleObjects1.length = 0;
-gdjs.SettingsCode.GDBtnMusicToggleObjects2.length = 0;
-gdjs.SettingsCode.GDBtnBackObjects1.length = 0;
-gdjs.SettingsCode.GDBtnBackObjects2.length = 0;
-gdjs.SettingsCode.GDSFXObjects1.length = 0;
-gdjs.SettingsCode.GDSFXObjects2.length = 0;
-gdjs.SettingsCode.GDBtnSfxToggleObjects1.length = 0;
-gdjs.SettingsCode.GDBtnSfxToggleObjects2.length = 0;
+gdjs.Cutscene1Code.GDNewSpriteObjects1.length = 0;
+gdjs.Cutscene1Code.GDNewSpriteObjects2.length = 0;
+gdjs.Cutscene1Code.GDNewTextObjects1.length = 0;
+gdjs.Cutscene1Code.GDNewTextObjects2.length = 0;
+gdjs.Cutscene1Code.GDBtnContinueObjects1.length = 0;
+gdjs.Cutscene1Code.GDBtnContinueObjects2.length = 0;
 
-gdjs.SettingsCode.eventsList0(runtimeScene);
-gdjs.SettingsCode.GDNewSpriteObjects1.length = 0;
-gdjs.SettingsCode.GDNewSpriteObjects2.length = 0;
-gdjs.SettingsCode.GD_951052_951059_951047_951067_951050_951040Objects1.length = 0;
-gdjs.SettingsCode.GD_951052_951059_951047_951067_951050_951040Objects2.length = 0;
-gdjs.SettingsCode.GD_951053_951040_951057_951058_951056_951054_951048_951050_951040Objects1.length = 0;
-gdjs.SettingsCode.GD_951053_951040_951057_951058_951056_951054_951048_951050_951040Objects2.length = 0;
-gdjs.SettingsCode.GDBtnMusicToggleObjects1.length = 0;
-gdjs.SettingsCode.GDBtnMusicToggleObjects2.length = 0;
-gdjs.SettingsCode.GDBtnBackObjects1.length = 0;
-gdjs.SettingsCode.GDBtnBackObjects2.length = 0;
-gdjs.SettingsCode.GDSFXObjects1.length = 0;
-gdjs.SettingsCode.GDSFXObjects2.length = 0;
-gdjs.SettingsCode.GDBtnSfxToggleObjects1.length = 0;
-gdjs.SettingsCode.GDBtnSfxToggleObjects2.length = 0;
+gdjs.Cutscene1Code.eventsList0(runtimeScene);
+gdjs.Cutscene1Code.GDNewSpriteObjects1.length = 0;
+gdjs.Cutscene1Code.GDNewSpriteObjects2.length = 0;
+gdjs.Cutscene1Code.GDNewTextObjects1.length = 0;
+gdjs.Cutscene1Code.GDNewTextObjects2.length = 0;
+gdjs.Cutscene1Code.GDBtnContinueObjects1.length = 0;
+gdjs.Cutscene1Code.GDBtnContinueObjects2.length = 0;
 
 
 return;
 
 }
 
-gdjs['SettingsCode'] = gdjs.SettingsCode;
+gdjs['Cutscene1Code'] = gdjs.Cutscene1Code;

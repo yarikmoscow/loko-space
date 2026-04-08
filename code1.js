@@ -65,14 +65,14 @@ isConditionTrue_0 = false;
 if (isConditionTrue_0) {
 gdjs.GameCode.GDMeteorObjects2.length = 0;
 
-{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects, 14, 43, "");
+{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects, 42, 129, "");
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
     gdjs.GameCode.GDMeteorObjects2[i].returnVariable(gdjs.GameCode.GDMeteorObjects2[i].getVariables().getFromIndex(3)).setNumber(1);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].getBehavior("Resizable").setSize(80, 65);
+    gdjs.GameCode.GDMeteorObjects2[i].getBehavior("Resizable").setSize(240, 195);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
@@ -106,14 +106,14 @@ isConditionTrue_0 = false;
 if (isConditionTrue_0) {
 gdjs.GameCode.GDMeteorObjects2.length = 0;
 
-{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects, 620, 43, "");
+{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects, 1860, 129, "");
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
     gdjs.GameCode.GDMeteorObjects2[i].returnVariable(gdjs.GameCode.GDMeteorObjects2[i].getVariables().getFromIndex(3)).setNumber(2);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].getBehavior("Resizable").setSize(80, 65);
+    gdjs.GameCode.GDMeteorObjects2[i].getBehavior("Resizable").setSize(240, 195);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
@@ -147,10 +147,10 @@ isConditionTrue_0 = false;
 if (isConditionTrue_0) {
 gdjs.GameCode.GDMeteorObjects2.length = 0;
 
-{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects, 14, 311, "");
+{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects, 42, 933, "");
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].getBehavior("Resizable").setSize(80, 65);
+    gdjs.GameCode.GDMeteorObjects2[i].getBehavior("Resizable").setSize(240, 195);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
@@ -188,10 +188,10 @@ isConditionTrue_0 = false;
 if (isConditionTrue_0) {
 gdjs.GameCode.GDMeteorObjects1.length = 0;
 
-{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects1Objects, 620, 311, "");
+{gdjs.evtTools.object.createObjectOnScene(runtimeScene, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects1Objects, 1860, 933, "");
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects1[i].getBehavior("Resizable").setSize(80, 65);
+    gdjs.GameCode.GDMeteorObjects1[i].getBehavior("Resizable").setSize(240, 195);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects1.length ;i < len;++i) {
@@ -347,11 +347,11 @@ gdjs.copyArray(gdjs.GameCode.GDMascotObjects1, gdjs.GameCode.GDMascotObjects2);
 
 /* Reuse gdjs.GameCode.GDMeteorObjects2 */
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) - 50);
+    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) - 150);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) - 30);
+    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) - 90);
 }
 }
 }
@@ -379,11 +379,11 @@ gdjs.copyArray(gdjs.GameCode.GDMascotObjects1, gdjs.GameCode.GDMascotObjects2);
 
 /* Reuse gdjs.GameCode.GDMeteorObjects2 */
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) + 180);
+    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) + 540);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) - 30);
+    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) - 90);
 }
 }
 }
@@ -411,11 +411,11 @@ gdjs.copyArray(gdjs.GameCode.GDMascotObjects1, gdjs.GameCode.GDMascotObjects2);
 
 /* Reuse gdjs.GameCode.GDMeteorObjects2 */
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) - 50);
+    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) - 150);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) + 80);
+    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) + 240);
 }
 }
 }
@@ -443,11 +443,11 @@ gdjs.copyArray(gdjs.GameCode.GDMascotObjects1, gdjs.GameCode.GDMascotObjects2);
 
 /* Reuse gdjs.GameCode.GDMeteorObjects2 */
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) + 180);
+    gdjs.GameCode.GDMeteorObjects2[i].setX((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointX("")) + 540);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects2.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) + 80);
+    gdjs.GameCode.GDMeteorObjects2[i].setY((( gdjs.GameCode.GDMascotObjects2.length === 0 ) ? 0 :gdjs.GameCode.GDMascotObjects2[0].getPointY("")) + 240);
 }
 }
 }
@@ -566,7 +566,9 @@ isConditionTrue_0 = false;
 }
 }
 if (isConditionTrue_0) {
-{gdjs.evtTools.sound.playMusic(runtimeScene, "gam2.ogg", true, 50, 1);
+{gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
+}
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/1leveITOG.ogg", 0, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 }
 
@@ -581,10 +583,10 @@ isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonPressed(runtimeScene, "Left");
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) < 320;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) < 960;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) < 180;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) < 540;
 }
 }
 if (isConditionTrue_0) {
@@ -594,7 +596,7 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(true);
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 80, 80, "easeOutCubic", 0.08, false);
+    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 240, 240, "easeOutCubic", 0.08, false);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
@@ -614,10 +616,10 @@ isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonPressed(runtimeScene, "Left");
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) >= 320;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) >= 960;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) < 180;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) < 540;
 }
 }
 if (isConditionTrue_0) {
@@ -627,7 +629,7 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(true);
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 388, 80, "easeOutCubic", 0.08, false);
+    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 1164, 240, "easeOutCubic", 0.08, false);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
@@ -647,10 +649,10 @@ isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonPressed(runtimeScene, "Left");
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) < 320;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) < 960;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) >= 180;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) >= 540;
 }
 }
 if (isConditionTrue_0) {
@@ -660,7 +662,7 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(true);
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 80, 193, "easeOutCubic", 0.08, false);
+    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 240, 579, "easeOutCubic", 0.08, false);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
@@ -684,10 +686,10 @@ isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.input.isMouseButtonPressed(runtimeScene, "Left");
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) >= 320;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorX(runtimeScene, "", 0) >= 960;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) >= 180;
+isConditionTrue_0 = gdjs.evtTools.input.getCursorY(runtimeScene, "", 0) >= 540;
 }
 }
 if (isConditionTrue_0) {
@@ -697,7 +699,7 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(true);
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 388, 193, "easeOutCubic", 0.08, false);
+    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("move", 1164, 579, "easeOutCubic", 0.08, false);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
@@ -718,13 +720,13 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "ReturnTimer") >= 0.15;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "ReturnTimer") >= 0.3;
 if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1);
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(false);
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("moveBack", 277, 99, "easeInOutQuad", 0.06, false);
+    gdjs.GameCode.GDMascotObjects1[i].getBehavior("Tween").addObjectPositionTween2("moveBack", 831, 297, "easeInOutQuad", 0.06, false);
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMascotObjects1.length ;i < len;++i) {
@@ -757,11 +759,11 @@ gdjs.GameCode.GDMeteorObjects1.length = k;
 if (isConditionTrue_0) {
 /* Reuse gdjs.GameCode.GDMeteorObjects1 */
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects1[i].setX(gdjs.GameCode.GDMeteorObjects1[i].getX() + (Math.cos(Math.atan2(180 - (gdjs.GameCode.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.GameCode.GDMeteorObjects1[i].getPointX("")))) * 4));
+    gdjs.GameCode.GDMeteorObjects1[i].setX(gdjs.GameCode.GDMeteorObjects1[i].getX() + (Math.cos(Math.atan2(540 - (gdjs.GameCode.GDMeteorObjects1[i].getPointY("")), 960 - (gdjs.GameCode.GDMeteorObjects1[i].getPointX("")))) * 720 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDMeteorObjects1[i].setY(gdjs.GameCode.GDMeteorObjects1[i].getY() + (Math.sin(Math.atan2(180 - (gdjs.GameCode.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.GameCode.GDMeteorObjects1[i].getPointX("")))) * 4));
+    gdjs.GameCode.GDMeteorObjects1[i].setY(gdjs.GameCode.GDMeteorObjects1[i].getY() + (Math.sin(Math.atan2(540 - (gdjs.GameCode.GDMeteorObjects1[i].getPointY("")), 960 - (gdjs.GameCode.GDMeteorObjects1[i].getPointX("")))) * 720 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
 }
 }
 {for(var i = 0, len = gdjs.GameCode.GDMeteorObjects1.length ;i < len;++i) {
@@ -780,7 +782,7 @@ gdjs.copyArray(runtimeScene.getObjects("Meteor"), gdjs.GameCode.GDMeteorObjects1
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 for (var i = 0, k = 0, l = gdjs.GameCode.GDMeteorObjects1.length;i<l;++i) {
-    if ( gdjs.GameCode.GDMeteorObjects1[i].getX() >= 289 ) {
+    if ( gdjs.GameCode.GDMeteorObjects1[i].getX() >= 867 ) {
         isConditionTrue_0 = true;
         gdjs.GameCode.GDMeteorObjects1[k] = gdjs.GameCode.GDMeteorObjects1[i];
         ++k;
@@ -790,7 +792,7 @@ gdjs.GameCode.GDMeteorObjects1.length = k;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 for (var i = 0, k = 0, l = gdjs.GameCode.GDMeteorObjects1.length;i<l;++i) {
-    if ( gdjs.GameCode.GDMeteorObjects1[i].getY() >= 166 ) {
+    if ( gdjs.GameCode.GDMeteorObjects1[i].getY() >= 498 ) {
         isConditionTrue_0 = true;
         gdjs.GameCode.GDMeteorObjects1[k] = gdjs.GameCode.GDMeteorObjects1[i];
         ++k;
@@ -800,7 +802,7 @@ gdjs.GameCode.GDMeteorObjects1.length = k;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 for (var i = 0, k = 0, l = gdjs.GameCode.GDMeteorObjects1.length;i<l;++i) {
-    if ( gdjs.GameCode.GDMeteorObjects1[i].getX() <= 349 ) {
+    if ( gdjs.GameCode.GDMeteorObjects1[i].getX() <= 1047 ) {
         isConditionTrue_0 = true;
         gdjs.GameCode.GDMeteorObjects1[k] = gdjs.GameCode.GDMeteorObjects1[i];
         ++k;
@@ -810,7 +812,7 @@ gdjs.GameCode.GDMeteorObjects1.length = k;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 for (var i = 0, k = 0, l = gdjs.GameCode.GDMeteorObjects1.length;i<l;++i) {
-    if ( gdjs.GameCode.GDMeteorObjects1[i].getY() <= 192 ) {
+    if ( gdjs.GameCode.GDMeteorObjects1[i].getY() <= 576 ) {
         isConditionTrue_0 = true;
         gdjs.GameCode.GDMeteorObjects1[k] = gdjs.GameCode.GDMeteorObjects1[i];
         ++k;
@@ -830,7 +832,7 @@ gdjs.copyArray(runtimeScene.getObjects("LivesText"), gdjs.GameCode.GDLivesTextOb
 {runtimeScene.getGame().getVariables().getFromIndex(1).sub(1);
 }
 {for(var i = 0, len = gdjs.GameCode.GDLivesTextObjects1.length ;i < len;++i) {
-    gdjs.GameCode.GDLivesTextObjects1[i].getBehavior("Text").setText(gdjs.GameCode.GDLivesTextObjects1[i].getBehavior("Text").getText() + ("x" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(1)))));
+    gdjs.GameCode.GDLivesTextObjects1[i].getBehavior("Text").setText("x" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(1))));
 }
 }
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "BlinkTimer");
@@ -851,7 +853,7 @@ gdjs.copyArray(runtimeScene.getObjects("Meteor"), gdjs.GameCode.GDMeteorObjects1
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.object.distanceTest(gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMascotObjects1Objects, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects1Objects, 70, false);
+isConditionTrue_0 = gdjs.evtTools.object.distanceTest(gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMascotObjects1Objects, gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects1Objects, 300, false);
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 {isConditionTrue_0 = runtimeScene.getGame().getVariables().getFromIndex(6).getAsBoolean();
@@ -885,7 +887,7 @@ gdjs.copyArray(runtimeScene.getObjects("ScoreText"), gdjs.GameCode.GDScoreTextOb
     gdjs.GameCode.GDScoreTextObjects1[i].getBehavior("Text").setText("Очки:" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0))));
 }
 }
-{gdjs.evtTools.sound.playMusic(runtimeScene, "sounds/destroy1.ogg", false, 15, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/destroy1.ogg", 1, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 
 { //Subevents

@@ -566,7 +566,9 @@ isConditionTrue_0 = false;
 }
 }
 if (isConditionTrue_0) {
-{gdjs.evtTools.sound.playMusic(runtimeScene, "gam2.ogg", true, 50, 1);
+{gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
+}
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/3lvlITOG.ogg", 0, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 }
 
@@ -718,7 +720,7 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.Game_95Level3Code.GDMasco
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "ReturnTimer") >= 0.15;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "ReturnTimer") >= 0.3;
 if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.Game_95Level3Code.GDMascotObjects1);
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(false);
@@ -757,11 +759,11 @@ gdjs.Game_95Level3Code.GDMeteorObjects1.length = k;
 if (isConditionTrue_0) {
 /* Reuse gdjs.Game_95Level3Code.GDMeteorObjects1 */
 {for(var i = 0, len = gdjs.Game_95Level3Code.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.Game_95Level3Code.GDMeteorObjects1[i].setX(gdjs.Game_95Level3Code.GDMeteorObjects1[i].getX() + (Math.cos(Math.atan2(180 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointX("")))) * 4.5));
+    gdjs.Game_95Level3Code.GDMeteorObjects1[i].setX(gdjs.Game_95Level3Code.GDMeteorObjects1[i].getX() + (Math.cos(Math.atan2(180 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointX("")))) * 270 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
 }
 }
 {for(var i = 0, len = gdjs.Game_95Level3Code.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.Game_95Level3Code.GDMeteorObjects1[i].setY(gdjs.Game_95Level3Code.GDMeteorObjects1[i].getY() + (Math.sin(Math.atan2(180 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointX("")))) * 4.5));
+    gdjs.Game_95Level3Code.GDMeteorObjects1[i].setY(gdjs.Game_95Level3Code.GDMeteorObjects1[i].getY() + (Math.sin(Math.atan2(180 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.Game_95Level3Code.GDMeteorObjects1[i].getPointX("")))) * 270 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
 }
 }
 {for(var i = 0, len = gdjs.Game_95Level3Code.GDMeteorObjects1.length ;i < len;++i) {
@@ -885,7 +887,7 @@ gdjs.copyArray(runtimeScene.getObjects("ScoreText"), gdjs.Game_95Level3Code.GDSc
     gdjs.Game_95Level3Code.GDScoreTextObjects1[i].getBehavior("Text").setText("Очки:" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0))));
 }
 }
-{gdjs.evtTools.sound.playMusic(runtimeScene, "sounds/destroy1.ogg", false, 15, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/destroy1.ogg", 1, false, 15 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)), 1);
 }
 
 { //Subevents

@@ -42,10 +42,6 @@ gdjs.copyArray(runtimeScene.getObjects("BtnExit"), gdjs.StartMenuCode.GDBtnExitO
 gdjs.copyArray(runtimeScene.getObjects("BtnPlay"), gdjs.StartMenuCode.GDBtnPlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("BtnSettings"), gdjs.StartMenuCode.GDBtnSettingsObjects1);
 gdjs.copyArray(runtimeScene.getObjects("CockpitBG"), gdjs.StartMenuCode.GDCockpitBGObjects1);
-{gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
-}
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "StartMenu.ogg", 0, true, 70, 1);
-}
 {for(var i = 0, len = gdjs.StartMenuCode.GDBtnPlayObjects1.length ;i < len;++i) {
     gdjs.StartMenuCode.GDBtnPlayObjects1[i].hide();
 }
@@ -107,6 +103,10 @@ gdjs.copyArray(runtimeScene.getObjects("CockpitBG"), gdjs.StartMenuCode.GDCockpi
 gdjs.copyArray(runtimeScene.getObjects("Overlay"), gdjs.StartMenuCode.GDOverlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("TapText"), gdjs.StartMenuCode.GDTapTextObjects1);
 gdjs.copyArray(runtimeScene.getObjects("podlozhka"), gdjs.StartMenuCode.GDpodlozhkaObjects1);
+{gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
+}
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, true, 70, 1);
+}
 {for(var i = 0, len = gdjs.StartMenuCode.GDOverlayObjects1.length ;i < len;++i) {
     gdjs.StartMenuCode.GDOverlayObjects1[i].deleteFromScene(runtimeScene);
 }
@@ -134,15 +134,15 @@ gdjs.copyArray(runtimeScene.getObjects("podlozhka"), gdjs.StartMenuCode.GDpodloz
 {runtimeScene.getScene().getVariables().getFromIndex(0).setNumber(2);
 }
 {for(var i = 0, len = gdjs.StartMenuCode.GDBtnPlayObjects1.length ;i < len;++i) {
-    gdjs.StartMenuCode.GDBtnPlayObjects1[i].getBehavior("Tween").addObjectPositionXTween2("slideIn", 357, "easeOutCubic", 1.2, false);
+    gdjs.StartMenuCode.GDBtnPlayObjects1[i].getBehavior("Tween").addObjectPositionXTween2("slideIn", 1071, "easeOutCubic", 1.2, false);
 }
 }
 {for(var i = 0, len = gdjs.StartMenuCode.GDBtnSettingsObjects1.length ;i < len;++i) {
-    gdjs.StartMenuCode.GDBtnSettingsObjects1[i].getBehavior("Tween").addObjectPositionXTween2("slideIn", 357, "easeOutCubic", 1.2, false);
+    gdjs.StartMenuCode.GDBtnSettingsObjects1[i].getBehavior("Tween").addObjectPositionXTween2("slideIn", 1071, "easeOutCubic", 1.2, false);
 }
 }
 {for(var i = 0, len = gdjs.StartMenuCode.GDBtnExitObjects1.length ;i < len;++i) {
-    gdjs.StartMenuCode.GDBtnExitObjects1[i].getBehavior("Tween").addObjectPositionXTween2("slideIn", 357, "easeOutCubic", 1.2, false);
+    gdjs.StartMenuCode.GDBtnExitObjects1[i].getBehavior("Tween").addObjectPositionXTween2("slideIn", 1071, "easeOutCubic", 1.2, false);
 }
 }
 {for(var i = 0, len = gdjs.StartMenuCode.GDpodlozhkaObjects1.length ;i < len;++i) {

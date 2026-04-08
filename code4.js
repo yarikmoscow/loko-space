@@ -39,6 +39,8 @@ gdjs.copyArray(runtimeScene.getObjects("FinalScoreText"), gdjs.GameOverCode.GDFi
 }
 {gdjs.evtTools.sound.playMusic(runtimeScene, "game.ogg", false, 50, 1);
 }
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 1, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)), 1);
+}
 }
 
 }
