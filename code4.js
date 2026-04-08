@@ -37,9 +37,7 @@ gdjs.copyArray(runtimeScene.getObjects("FinalScoreText"), gdjs.GameOverCode.GDFi
     gdjs.GameOverCode.GDFinalScoreTextObjects1[i].setX(320 - (gdjs.GameOverCode.GDFinalScoreTextObjects1[i].getWidth()) / 2);
 }
 }
-{gdjs.evtTools.sound.playMusic(runtimeScene, "game.ogg", false, 50, 1);
-}
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 1, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 }
 

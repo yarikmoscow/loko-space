@@ -31,6 +31,9 @@ gdjs.Game_95Level2Code.GDGagarinObjects3= [];
 gdjs.Game_95Level2Code.GDstar1Objects1= [];
 gdjs.Game_95Level2Code.GDstar1Objects2= [];
 gdjs.Game_95Level2Code.GDstar1Objects3= [];
+gdjs.Game_95Level2Code.GDFadeOverlayObjects1= [];
+gdjs.Game_95Level2Code.GDFadeOverlayObjects2= [];
+gdjs.Game_95Level2Code.GDFadeOverlayObjects3= [];
 
 
 gdjs.Game_95Level2Code.mapOfGDgdjs_9546Game_959595Level2Code_9546GDMeteorObjects2Objects = Hashtable.newFrom({"Meteor": gdjs.Game_95Level2Code.GDMeteorObjects2});
@@ -495,6 +498,7 @@ let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.Game_95Level2Code.GDFadeOverlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("LivesText"), gdjs.Game_95Level2Code.GDLivesTextObjects1);
 gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.Game_95Level2Code.GDstar1Objects1);
 {runtimeScene.getGame().getVariables().getFromIndex(0).setNumber(0);
@@ -517,6 +521,14 @@ gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.Game_95Level2Code.GDstar1O
 }
 {for(var i = 0, len = gdjs.Game_95Level2Code.GDstar1Objects1.length ;i < len;++i) {
     gdjs.Game_95Level2Code.GDstar1Objects1[i].getBehavior("Animation").setAnimationName("idle");
+}
+}
+{for(var i = 0, len = gdjs.Game_95Level2Code.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.Game_95Level2Code.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
+}
+}
+{for(var i = 0, len = gdjs.Game_95Level2Code.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.Game_95Level2Code.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 0.8, false);
 }
 }
 }
@@ -753,11 +765,11 @@ gdjs.Game_95Level2Code.GDMeteorObjects1.length = k;
 if (isConditionTrue_0) {
 /* Reuse gdjs.Game_95Level2Code.GDMeteorObjects1 */
 {for(var i = 0, len = gdjs.Game_95Level2Code.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.Game_95Level2Code.GDMeteorObjects1[i].setX(gdjs.Game_95Level2Code.GDMeteorObjects1[i].getX() + (Math.cos(Math.atan2(180 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointX("")))) * 300 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
+    gdjs.Game_95Level2Code.GDMeteorObjects1[i].setX(gdjs.Game_95Level2Code.GDMeteorObjects1[i].getX() + (Math.cos(Math.atan2(540 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointY("")), 960 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointX("")))) * 900 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
 }
 }
 {for(var i = 0, len = gdjs.Game_95Level2Code.GDMeteorObjects1.length ;i < len;++i) {
-    gdjs.Game_95Level2Code.GDMeteorObjects1[i].setY(gdjs.Game_95Level2Code.GDMeteorObjects1[i].getY() + (Math.sin(Math.atan2(180 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointY("")), 320 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointX("")))) * 300 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
+    gdjs.Game_95Level2Code.GDMeteorObjects1[i].setY(gdjs.Game_95Level2Code.GDMeteorObjects1[i].getY() + (Math.sin(Math.atan2(540 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointY("")), 960 - (gdjs.Game_95Level2Code.GDMeteorObjects1[i].getPointX("")))) * 900 * gdjs.evtTools.runtimeScene.getElapsedTimeInSeconds(runtimeScene)));
 }
 }
 {for(var i = 0, len = gdjs.Game_95Level2Code.GDMeteorObjects1.length ;i < len;++i) {
@@ -826,7 +838,7 @@ gdjs.copyArray(runtimeScene.getObjects("LivesText"), gdjs.Game_95Level2Code.GDLi
 {runtimeScene.getGame().getVariables().getFromIndex(1).sub(1);
 }
 {for(var i = 0, len = gdjs.Game_95Level2Code.GDLivesTextObjects1.length ;i < len;++i) {
-    gdjs.Game_95Level2Code.GDLivesTextObjects1[i].getBehavior("Text").setText(gdjs.Game_95Level2Code.GDLivesTextObjects1[i].getBehavior("Text").getText() + ("x" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(1)))));
+    gdjs.Game_95Level2Code.GDLivesTextObjects1[i].getBehavior("Text").setText("x" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(1))));
 }
 }
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "BlinkTimer");
@@ -1210,6 +1222,9 @@ gdjs.Game_95Level2Code.GDGagarinObjects3.length = 0;
 gdjs.Game_95Level2Code.GDstar1Objects1.length = 0;
 gdjs.Game_95Level2Code.GDstar1Objects2.length = 0;
 gdjs.Game_95Level2Code.GDstar1Objects3.length = 0;
+gdjs.Game_95Level2Code.GDFadeOverlayObjects1.length = 0;
+gdjs.Game_95Level2Code.GDFadeOverlayObjects2.length = 0;
+gdjs.Game_95Level2Code.GDFadeOverlayObjects3.length = 0;
 
 gdjs.Game_95Level2Code.eventsList3(runtimeScene);
 gdjs.Game_95Level2Code.GDMascotObjects1.length = 0;
@@ -1242,6 +1257,9 @@ gdjs.Game_95Level2Code.GDGagarinObjects3.length = 0;
 gdjs.Game_95Level2Code.GDstar1Objects1.length = 0;
 gdjs.Game_95Level2Code.GDstar1Objects2.length = 0;
 gdjs.Game_95Level2Code.GDstar1Objects3.length = 0;
+gdjs.Game_95Level2Code.GDFadeOverlayObjects1.length = 0;
+gdjs.Game_95Level2Code.GDFadeOverlayObjects2.length = 0;
+gdjs.Game_95Level2Code.GDFadeOverlayObjects3.length = 0;
 
 
 return;

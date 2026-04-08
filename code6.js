@@ -39,7 +39,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene1Code.GDNewTextO
     gdjs.Cutscene1Code.GDBtnContinueObjects1[i].hide();
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, false, 70, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/catscenmus.ogg", 0, true, 70, 1);
 }
 }
 

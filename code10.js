@@ -42,7 +42,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene5Code.GDNewTextO
     gdjs.Cutscene5Code.GDBtnContinueObjects1[i].hide();
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/ITOG SOUND.ogg", 0, false, 70, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/ITOG_FINAL_96_2.ogg", 0, false, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "DelayTimer");
 }

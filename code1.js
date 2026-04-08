@@ -28,15 +28,12 @@ gdjs.GameCode.GDgalaxyObjects3= [];
 gdjs.GameCode.GDGagarinObjects1= [];
 gdjs.GameCode.GDGagarinObjects2= [];
 gdjs.GameCode.GDGagarinObjects3= [];
-gdjs.GameCode.GDMASKOTObjects1= [];
-gdjs.GameCode.GDMASKOTObjects2= [];
-gdjs.GameCode.GDMASKOTObjects3= [];
-gdjs.GameCode.GDmet_95954Objects1= [];
-gdjs.GameCode.GDmet_95954Objects2= [];
-gdjs.GameCode.GDmet_95954Objects3= [];
 gdjs.GameCode.GDstar1Objects1= [];
 gdjs.GameCode.GDstar1Objects2= [];
 gdjs.GameCode.GDstar1Objects3= [];
+gdjs.GameCode.GDFadeOverlayObjects1= [];
+gdjs.GameCode.GDFadeOverlayObjects2= [];
+gdjs.GameCode.GDFadeOverlayObjects3= [];
 
 
 gdjs.GameCode.mapOfGDgdjs_9546GameCode_9546GDMeteorObjects2Objects = Hashtable.newFrom({"Meteor": gdjs.GameCode.GDMeteorObjects2});
@@ -501,6 +498,7 @@ let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.GameCode.GDFadeOverlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("LivesText"), gdjs.GameCode.GDLivesTextObjects1);
 gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.GameCode.GDstar1Objects1);
 {runtimeScene.getGame().getVariables().getFromIndex(0).setNumber(0);
@@ -523,6 +521,10 @@ gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.GameCode.GDstar1Objects1);
 }
 {for(var i = 0, len = gdjs.GameCode.GDstar1Objects1.length ;i < len;++i) {
     gdjs.GameCode.GDstar1Objects1[i].getBehavior("Animation").setAnimationName("idle");
+}
+}
+{for(var i = 0, len = gdjs.GameCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.GameCode.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 1.8, false);
 }
 }
 }
@@ -720,7 +722,7 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "ReturnTimer") >= 0.3;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "ReturnTimer") >= 0.15;
 if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1);
 {runtimeScene.getGame().getVariables().getFromIndex(6).setBoolean(false);
@@ -887,7 +889,7 @@ gdjs.copyArray(runtimeScene.getObjects("ScoreText"), gdjs.GameCode.GDScoreTextOb
     gdjs.GameCode.GDScoreTextObjects1[i].getBehavior("Text").setText("Очки:" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0))));
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/destroy1.ogg", 1, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/destroy1.ogg", 1, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 
 { //Subevents
@@ -936,12 +938,22 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(0).getAsNumber() > 300);
+{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(0).getAsNumber() > 50);
 }
 if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+{isConditionTrue_0 = runtimeScene.getOnceTriggers().triggerOnce(10047332);
+}
+}
+if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.GameCode.GDFadeOverlayObjects1);
 {gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
 }
-{gdjs.evtTools.runtimeScene.replaceScene(runtimeScene, "Cutscene2", false);
+{for(var i = 0, len = gdjs.GameCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.GameCode.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeOut", 255, "easeInQuad", 0.8, false);
+}
+}
+{gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "FadeOutTimer");
 }
 }
 
@@ -1181,6 +1193,20 @@ gdjs.GameCode.eventsList2(runtimeScene);} //End of subevents
 }
 
 
+{
+
+
+let isConditionTrue_0 = false;
+isConditionTrue_0 = false;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "FadeOutTimer") >= 0.8;
+if (isConditionTrue_0) {
+{gdjs.evtTools.runtimeScene.replaceScene(runtimeScene, "Cutscene2", false);
+}
+}
+
+}
+
+
 };
 
 gdjs.GameCode.func = function(runtimeScene) {
@@ -1213,15 +1239,12 @@ gdjs.GameCode.GDgalaxyObjects3.length = 0;
 gdjs.GameCode.GDGagarinObjects1.length = 0;
 gdjs.GameCode.GDGagarinObjects2.length = 0;
 gdjs.GameCode.GDGagarinObjects3.length = 0;
-gdjs.GameCode.GDMASKOTObjects1.length = 0;
-gdjs.GameCode.GDMASKOTObjects2.length = 0;
-gdjs.GameCode.GDMASKOTObjects3.length = 0;
-gdjs.GameCode.GDmet_95954Objects1.length = 0;
-gdjs.GameCode.GDmet_95954Objects2.length = 0;
-gdjs.GameCode.GDmet_95954Objects3.length = 0;
 gdjs.GameCode.GDstar1Objects1.length = 0;
 gdjs.GameCode.GDstar1Objects2.length = 0;
 gdjs.GameCode.GDstar1Objects3.length = 0;
+gdjs.GameCode.GDFadeOverlayObjects1.length = 0;
+gdjs.GameCode.GDFadeOverlayObjects2.length = 0;
+gdjs.GameCode.GDFadeOverlayObjects3.length = 0;
 
 gdjs.GameCode.eventsList3(runtimeScene);
 gdjs.GameCode.GDMascotObjects1.length = 0;
@@ -1251,15 +1274,12 @@ gdjs.GameCode.GDgalaxyObjects3.length = 0;
 gdjs.GameCode.GDGagarinObjects1.length = 0;
 gdjs.GameCode.GDGagarinObjects2.length = 0;
 gdjs.GameCode.GDGagarinObjects3.length = 0;
-gdjs.GameCode.GDMASKOTObjects1.length = 0;
-gdjs.GameCode.GDMASKOTObjects2.length = 0;
-gdjs.GameCode.GDMASKOTObjects3.length = 0;
-gdjs.GameCode.GDmet_95954Objects1.length = 0;
-gdjs.GameCode.GDmet_95954Objects2.length = 0;
-gdjs.GameCode.GDmet_95954Objects3.length = 0;
 gdjs.GameCode.GDstar1Objects1.length = 0;
 gdjs.GameCode.GDstar1Objects2.length = 0;
 gdjs.GameCode.GDstar1Objects3.length = 0;
+gdjs.GameCode.GDFadeOverlayObjects1.length = 0;
+gdjs.GameCode.GDFadeOverlayObjects2.length = 0;
+gdjs.GameCode.GDFadeOverlayObjects3.length = 0;
 
 
 return;
