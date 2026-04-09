@@ -16,13 +16,6 @@ window.addEventListener('load', function() {
             tg.disableVerticalSwipes();
         }
     }
-    if (!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) {
-        document.addEventListener('click', function() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen().catch(function(){});
-            }
-        }, { once: true });
-    }
 });
 </script>
 <style>
