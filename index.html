@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translacent">
     <meta name="theme-color" content="#000000"/>
     <link rel="manifest" href="manifest.webmanifest">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -18,36 +18,25 @@
             position: fixed;
             top: 0; left: 0;
         }
-        body {
-            padding-top: env(safe-area-inset-top);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        #canvasArea { margin-left: auto; margin-right: auto; overflow: hidden; }
-        canvas { display: block; }
-        #debugLog {
+        #game-container {
             position: fixed;
             top: 0; left: 0;
-            width: 100%; height: 50%;
-            background: rgba(0,0,0,0.95);
-            color: #0f0;
-            font-family: monospace;
-            font-size: 10px;
-            padding: 5px;
-            overflow-y: auto;
-            z-index: 99999;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            width: 100vw; height: 100vh;
+            overflow: hidden;
         }
-        #debugClose {
+        #game-container.force-landscape {
+            width: 100vh;
+            height: 100vw;
+            transform: rotate(90deg);
+            transform-origin: top left;
             position: fixed;
-            top: 5px; right: 10px;
-            background: red; color: white;
-            border: none; padding: 8px 15px;
-            font-size: 14px; font-weight: bold;
-            z-index: 100000;
-            border-radius: 5px;
+            top: 0;
+            left: 100vw;
+        }
+        #game-container canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
         }
     </style>
 
@@ -145,112 +134,45 @@
     <script src="data.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="debugLog"></div>
-    <button id="debugClose" onclick="document.getElementById('debugLog').style.display='none'; this.style.display='none';">✕ ЗАКРЫТЬ ЛОГ</button>
+    <div id="game-container"></div>
 
     <script>
-        function dlog(msg) {
-            var el = document.getElementById('debugLog');
-            if (el) {
-                el.textContent += msg + '\n';
-                el.scrollTop = el.scrollHeight;
-            }
-            console.log(msg);
-        }
-
-        window.onerror = function(msg, url, line) {
-            dlog('ERROR: ' + msg + ' line:' + line);
-        };
-
-        dlog('=== PAGE LOADED ===');
-        dlog('URL: ' + location.href.substr(0, 60));
-        dlog('Screen: ' + screen.width + 'x' + screen.height);
-        dlog('Window: ' + window.innerWidth + 'x' + window.innerHeight);
-
         if (window.Telegram && window.Telegram.WebApp) {
             var tg = window.Telegram.WebApp;
-            dlog('TG version: ' + tg.version);
-            dlog('TG platform: ' + (tg.platform || '?'));
-            dlog('TG isFullscreen: ' + tg.isFullscreen);
-            dlog('TG viewportHeight: ' + tg.viewportHeight);
-            dlog('TG viewportStableHeight: ' + tg.viewportStableHeight);
-
-            // Проверяем ВСЕ доступные методы
-            var methods = ['requestFullscreen','lockOrientation','disableVerticalSwipes','expand','enableClosingConfirmation','setHeaderColor','setBackgroundColor'];
-            methods.forEach(function(m) {
-                dlog('  ' + m + ': ' + (typeof tg[m]));
-            });
-
             tg.ready();
-            dlog('ready() OK');
 
-            // disableVerticalSwipes
-            try { tg.disableVerticalSwipes(); dlog('disableVerticalSwipes OK'); } catch(e) { dlog('disableVerticalSwipes ERR: ' + e.message); }
+            try { tg.disableVerticalSwipes(); } catch(e) {}
+            try { tg.requestFullscreen(); } catch(e) {}
 
-            // Слушаем fullscreen события
-            if (tg.onEvent) {
-                tg.onEvent('fullscreenChanged', function() {
-                    dlog('>>> fullscreenChanged: ' + tg.isFullscreen);
-                    dlog('>>> window now: ' + window.innerWidth + 'x' + window.innerHeight);
-                });
-                tg.onEvent('fullscreenFailed', function(e) {
-                    dlog('>>> fullscreenFailed: ' + JSON.stringify(e));
-                });
-                dlog('Event listeners registered');
-            }
-
-            // СПОСОБ 1: requestFullscreen БЕЗ await (синхронный вызов)
-            dlog('--- Calling requestFullscreen ---');
-            try {
-                tg.requestFullscreen();
-                dlog('requestFullscreen() returned OK');
-            } catch(e) {
-                dlog('requestFullscreen() THREW: ' + e.message);
-            }
-
-            // Проверяем через 1 секунду
             setTimeout(function() {
-                dlog('--- After 1s ---');
-                dlog('isFullscreen: ' + tg.isFullscreen);
-                dlog('window: ' + window.innerWidth + 'x' + window.innerHeight);
-
-                // lockOrientation после задержки
-                dlog('--- Calling lockOrientation ---');
-                try {
-                    tg.lockOrientation('landscape');
-                    dlog('lockOrientation() returned OK');
-                } catch(e) {
-                    dlog('lockOrientation() THREW: ' + e.message);
-                }
-
-                // Проверяем через ещё 1 секунду
-                setTimeout(function() {
-                    dlog('--- After 2s ---');
-                    dlog('isFullscreen: ' + tg.isFullscreen);
-                    dlog('window: ' + window.innerWidth + 'x' + window.innerHeight);
-                    dlog('orientation: ' + (screen.orientation ? screen.orientation.type : 'N/A'));
-                }, 1000);
-            }, 1000);
-
-        } else {
-            dlog('NOT in Telegram');
+                try { tg.lockOrientation('landscape'); } catch(e) {}
+            }, 500);
         }
 
-        // Запуск игры через 3 секунды
-        setTimeout(function() {
-            dlog('--- Starting game ---');
-            try {
-                var game = new gdjs.RuntimeGame(gdjs.projectData, {});
-                game.getRenderer().createStandardCanvas(document.body);
-                game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-                game.loadAllAssets(function() {
-                    dlog('Game running!');
-                    game.startGameLoop();
-                });
-            } catch(e) {
-                dlog('GAME ERROR: ' + e.message);
+        var needsRotation = false;
+
+        function checkOrientation() {
+            var container = document.getElementById('game-container');
+            if (window.innerHeight > window.innerWidth) {
+                container.classList.add('force-landscape');
+                needsRotation = true;
+            } else {
+                container.classList.remove('force-landscape');
+                needsRotation = false;
             }
-        }, 3000);
+        }
+
+        checkOrientation();
+        window.addEventListener('resize', checkOrientation);
+
+        // Запуск игры
+        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+        var container = document.getElementById('game-container');
+        game.getRenderer().createStandardCanvas(container);
+        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+        game.loadAllAssets(function() {
+            game.startGameLoop();
+        });
     </script>
 </body>
 </html>
