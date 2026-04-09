@@ -1,12 +1,23 @@
 {
-  "name": "LOKO Space - 1920 1080 -preditog - reserv",
-  "short_name": "LOKO Space - 1920 1080 -preditog - reserv",
-  "id": "com.example.gamename",
-  "description": "",
+  "name": "Локо Спейс",
+  "short_name": "Локо",
+  "description": "Игра ловли метеоритов",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
   "orientation": "landscape",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "black",
-  "categories": ["games", "entertainment"],
-  "icons": []
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
