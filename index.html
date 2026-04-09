@@ -1,63 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-window.addEventListener('load', function() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        var tg = window.Telegram.WebApp;
-        tg.ready();
-        if (typeof tg.requestFullscreen === 'function') {
-            try { tg.requestFullscreen(); } catch(e) { tg.expand(); }
-        } else {
-            tg.expand();
-        }
-        if (typeof tg.disableVerticalSwipes === 'function') {
-            tg.disableVerticalSwipes();
-        }
-    }
-    if (!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) {
-        document.addEventListener('click', function() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen().catch(function(){});
-            }
-        }, { once: true });
-    }
-});
-</script>
-<style>
-    html {
-        position: fixed;
-        height: auto !important;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-</style>
     <meta charset="UTF-8"/>
-    <link rel="manifest" href="manifest.webmanifest">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <meta name="theme-color" content="#000000" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			background-color: #000000;
+    <meta name="theme-color" content="#000000"/>
+    <link rel="manifest" href="manifest.webmanifest">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+    window.addEventListener('load', function() {
+        if (window.Telegram && window.Telegram.WebApp) {
+            var tg = window.Telegram.WebApp;
+            tg.ready();
+            if (typeof tg.requestFullscreen === 'function') {
+                try { tg.requestFullscreen(); } catch(e) {
+                    if (typeof tg.expand === 'function') { tg.expand(); }
+                }
+            } else {
+                if (typeof tg.expand === 'function') { tg.expand(); }
+            }
+            if (typeof tg.lockOrientation === 'function') {
+                try { tg.lockOrientation('landscape'); } catch(e) {}
+            }
+            if (typeof tg.disableVerticalSwipes === 'function') {
+                tg.disableVerticalSwipes();
+            }
+        }
+        if (!window.Telegram || !window.Telegram.WebApp || !window.Telegram.WebApp.initData) {
+            document.addEventListener('click', function() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(function(){});
+                }
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(function(){});
+                }
+            }, { once: true });
+        }
+    });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #000;
             overflow: hidden;
-		}
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        body {
+            padding-top: env(safe-area-inset-top);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
         #canvasArea {
             margin-left: auto;
             margin-right: auto;
             overflow: hidden;
         }
-
-        
-	</style>
+        canvas {
+            display: block;
+        }
+    </style>
     <!-- Libs and GDJS core files : -->
 		<script src="libs/jshashtable.js" crossorigin="anonymous"></script>
 	<script src="logger.js" crossorigin="anonymous"></script>
@@ -151,30 +162,17 @@ window.addEventListener('load', function() {
 	<script src="code9.js" crossorigin="anonymous"></script>
 	<script src="code10.js" crossorigin="anonymous"></script>
 	<script src="data.js" crossorigin="anonymous"></script>
-
-
 </head>
 <body>
-
-    
 	<script>
-
     (function() {
-        //Initialization
         var game = new gdjs.RuntimeGame(gdjs.projectData, {});
-
-        //Create a renderer
         game.getRenderer().createStandardCanvas(document.body);
-
-        //Bind keyboards/mouse/touch events
         game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-
-        //Load all assets and start the game
         game.loadAllAssets(function() {
             game.startGameLoop();
         });
     })();
-
 	</script>
 </body>
 </html>
