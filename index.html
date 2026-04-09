@@ -10,43 +10,47 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             background: #000;
             overflow: hidden;
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
         }
-
         body {
             padding-top: env(safe-area-inset-top);
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
             padding-bottom: env(safe-area-inset-bottom);
         }
-
-        #canvasArea {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+        #canvasArea { margin-left: auto; margin-right: auto; overflow: hidden; }
+        canvas { display: block; }
+        #debugLog {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: rgba(0,0,0,0.95);
+            color: #0f0;
+            font-family: monospace;
+            font-size: 10px;
+            padding: 5px;
+            overflow-y: auto;
+            z-index: 99999;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
-
-        canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
+        #debugClose {
+            position: fixed;
+            top: 5px; right: 10px;
+            background: red; color: white;
+            border: none; padding: 8px 15px;
+            font-size: 14px; font-weight: bold;
+            z-index: 100000;
+            border-radius: 5px;
         }
     </style>
 
-    <!-- GDevelop Libs and core files -->
     <script src="libs/jshashtable.js" crossorigin="anonymous"></script>
     <script src="logger.js" crossorigin="anonymous"></script>
     <script src="gd.js" crossorigin="anonymous"></script>
@@ -141,216 +145,112 @@
     <script src="data.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="canvasArea"></div>
+    <div id="debugLog"></div>
+    <button id="debugClose" onclick="document.getElementById('debugLog').style.display='none'; this.style.display='none';">✕ ЗАКРЫТЬ ЛОГ</button>
 
     <script>
-        // ===== TELEGRAM MINI APP 2.0 INITIALIZATION =====
-        // Это главный менеджер для всей инициализации
-
-        const TelegramGameInit = {
-            tg: null,
-            isInitialized: false,
-            isTelegramEnvironment: false,
-            isFullscreen: false,
-            isLandscape: false,
-
-            // Главная функция инициализации
-            init: async function() {
-                console.log('[GameInit] Starting initialization...');
-
-                // Проверка Telegram окружения
-                if (window.Telegram && window.Telegram.WebApp) {
-                    this.isTelegramEnvironment = true;
-                    this.tg = window.Telegram.WebApp;
-                    console.log('[GameInit] Telegram environment detected');
-
-                    await this.initTelegram();
-                } else {
-                    console.log('[GameInit] Not in Telegram environment, using browser fallback');
-                    this.initBrowserFallback();
-                }
-
-                this.isInitialized = true;
-                console.log('[GameInit] Initialization complete');
-
-                // Запускаем игру
-                this.startGame();
-            },
-
-            // Инициализация в Telegram Mini App
-            initTelegram: async function() {
-                const tg = this.tg;
-
-                // 1. Сообщаем Telegram что приложение готово
-                tg.ready();
-                console.log('[Telegram] ready() called');
-
-                // 2. Отключаем вертикальные свайпы СРАЗУ
-                if (typeof tg.disableVerticalSwipes === 'function') {
-                    try {
-                        tg.disableVerticalSwipes();
-                        console.log('[Telegram] ✅ Vertical swipes disabled');
-                    } catch(err) {
-                        console.warn('[Telegram] ⚠️ disableVerticalSwipes failed:', err.message);
-                    }
-                }
-
-                // 3. Запрашиваем полноэкранный режим
-                if (typeof tg.requestFullscreen === 'function') {
-                    try {
-                        await tg.requestFullscreen();
-                        this.isFullscreen = true;
-                        console.log('[Telegram] ✅ Fullscreen mode activated');
-
-                        // 4. ПОСЛЕ полноэкрана пытаемся заблокировать ориентацию
-                        // Добавляем задержку, чтобы полноэкран полностью активировался
-                        await new Promise(resolve => setTimeout(resolve, 100));
-
-                        if (typeof tg.lockOrientation === 'function') {
-                            try {
-                                tg.lockOrientation('landscape');
-                                this.isLandscape = true;
-                                console.log('[Telegram] ✅ Landscape orientation locked');
-                            } catch(err) {
-                                console.warn('[Telegram] ⚠️ lockOrientation failed:', err.message);
-                            }
-                        } else {
-                            console.warn('[Telegram] ⚠️ lockOrientation not available (older Telegram version)');
-                        }
-                    } catch(err) {
-                        console.error('[Telegram] ❌ requestFullscreen failed:', err.message);
-
-                        // Fallback на expand()
-                        if (typeof tg.expand === 'function') {
-                            try {
-                                tg.expand();
-                                console.log('[Telegram] 📌 Using expand() instead of fullscreen');
-                            } catch(err2) {
-                                console.warn('[Telegram] ⚠️ expand also failed:', err2.message);
-                            }
-                        }
-                    }
-                } else {
-                    console.warn('[Telegram] ⚠️ requestFullscreen not available (older Telegram version)');
-
-                    // Fallback на expand()
-                    if (typeof tg.expand === 'function') {
-                        try {
-                            tg.expand();
-                            console.log('[Telegram] 📌 Using expand() as primary method');
-                        } catch(err) {
-                            console.warn('[Telegram] ⚠️ expand failed:', err.message);
-                        }
-                    }
-                }
-
-                // 5. Слушаем события Telegram
-                this.setupTelegramEventListeners();
-            },
-
-            // Слушаем события от Telegram
-            setupTelegramEventListeners: function() {
-                const tg = this.tg;
-
-                // Событие изменения полноэкрана
-                if (tg.onEvent) {
-                    tg.onEvent('fullscreenChanged', (isFullscreen) => {
-                        this.isFullscreen = isFullscreen;
-                        console.log('[Telegram] Fullscreen changed:', isFullscreen);
-                    });
-
-                    tg.onEvent('fullscreenFailed', (error) => {
-                        console.error('[Telegram] ❌ Fullscreen failed:', error);
-                    });
-
-                    // События активации/деактивации (пауза/возобновление)
-                    tg.onEvent('deactivated', () => {
-                        console.log('[Telegram] App deactivated (paused)');
-                        window.dispatchEvent(new CustomEvent('gamePaused'));
-                    });
-
-                    tg.onEvent('activated', () => {
-                        console.log('[Telegram] App activated (resumed)');
-                        window.dispatchEvent(new CustomEvent('gameResumed'));
-                    });
-                }
-            },
-
-            // Инициализация в браузере (вне Telegram)
-            initBrowserFallback: function() {
-                console.log('[Browser] Initializing browser fallback');
-
-                // Пытаемся перейти в полноэкран при первом клике
-                const initOnFirstClick = () => {
-                    console.log('[Browser] First interaction detected, requesting fullscreen and landscape');
-
-                    // Полноэкран браузера
-                    if (document.documentElement.requestFullscreen) {
-                        document.documentElement.requestFullscreen().catch(err => {
-                            console.warn('[Browser] requestFullscreen failed:', err.message);
-                        });
-                    }
-
-                    // Ориентация (работает на Android)
-                    if (screen.orientation && screen.orientation.lock) {
-                        screen.orientation.lock('landscape').catch(err => {
-                            console.warn('[Browser] orientation.lock failed:', err.message);
-                        });
-                    }
-
-                    // Убираем слушатель после первого клика
-                    document.removeEventListener('click', initOnFirstClick);
-                    document.removeEventListener('touchstart', initOnFirstClick);
-                };
-
-                document.addEventListener('click', initOnFirstClick);
-                document.addEventListener('touchstart', initOnFirstClick);
-            },
-
-            // Обработка смены ориентации
-            handleOrientationChange: function() {
-                console.log('[Orientation] Changed to:', 
-                    window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
-                );
-            },
-
-            // Запуск игры GDevelop
-            startGame: function() {
-                console.log('[Game] Starting GDevelop game...');
-
-                try {
-                    var game = new gdjs.RuntimeGame(gdjs.projectData, {});
-                    game.getRenderer().createStandardCanvas(document.getElementById('canvasArea'));
-                    game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-
-                    game.loadAllAssets(function() {
-                        console.log('[Game] ✅ All assets loaded, starting game loop');
-                        game.startGameLoop();
-                    });
-                } catch(err) {
-                    console.error('[Game] ❌ Failed to start game:', err);
-                }
+        function dlog(msg) {
+            var el = document.getElementById('debugLog');
+            if (el) {
+                el.textContent += msg + '\n';
+                el.scrollTop = el.scrollHeight;
             }
+            console.log(msg);
+        }
+
+        window.onerror = function(msg, url, line) {
+            dlog('ERROR: ' + msg + ' line:' + line);
         };
 
-        // ===== ЗАПУСК ИНИЦИАЛИЗАЦИИ =====
-        window.addEventListener('load', function() {
-            console.log('[Main] Page loaded, starting initialization');
-            TelegramGameInit.init();
-        });
+        dlog('=== PAGE LOADED ===');
+        dlog('URL: ' + location.href.substr(0, 60));
+        dlog('Screen: ' + screen.width + 'x' + screen.height);
+        dlog('Window: ' + window.innerWidth + 'x' + window.innerHeight);
 
-        // Обработка смены ориентации
-        window.addEventListener('orientationchange', function() {
-            TelegramGameInit.handleOrientationChange();
-        });
+        if (window.Telegram && window.Telegram.WebApp) {
+            var tg = window.Telegram.WebApp;
+            dlog('TG version: ' + tg.version);
+            dlog('TG platform: ' + (tg.platform || '?'));
+            dlog('TG isFullscreen: ' + tg.isFullscreen);
+            dlog('TG viewportHeight: ' + tg.viewportHeight);
+            dlog('TG viewportStableHeight: ' + tg.viewportStableHeight);
 
-        // Глобальный обработчик ошибок
-        window.addEventListener('error', function(event) {
-            console.error('[Global Error]', event.error);
-        });
+            // Проверяем ВСЕ доступные методы
+            var methods = ['requestFullscreen','lockOrientation','disableVerticalSwipes','expand','enableClosingConfirmation','setHeaderColor','setBackgroundColor'];
+            methods.forEach(function(m) {
+                dlog('  ' + m + ': ' + (typeof tg[m]));
+            });
 
-        // Экспортируем для дебага в консоли браузера
-        window.TelegramGameInit = TelegramGameInit;
+            tg.ready();
+            dlog('ready() OK');
+
+            // disableVerticalSwipes
+            try { tg.disableVerticalSwipes(); dlog('disableVerticalSwipes OK'); } catch(e) { dlog('disableVerticalSwipes ERR: ' + e.message); }
+
+            // Слушаем fullscreen события
+            if (tg.onEvent) {
+                tg.onEvent('fullscreenChanged', function() {
+                    dlog('>>> fullscreenChanged: ' + tg.isFullscreen);
+                    dlog('>>> window now: ' + window.innerWidth + 'x' + window.innerHeight);
+                });
+                tg.onEvent('fullscreenFailed', function(e) {
+                    dlog('>>> fullscreenFailed: ' + JSON.stringify(e));
+                });
+                dlog('Event listeners registered');
+            }
+
+            // СПОСОБ 1: requestFullscreen БЕЗ await (синхронный вызов)
+            dlog('--- Calling requestFullscreen ---');
+            try {
+                tg.requestFullscreen();
+                dlog('requestFullscreen() returned OK');
+            } catch(e) {
+                dlog('requestFullscreen() THREW: ' + e.message);
+            }
+
+            // Проверяем через 1 секунду
+            setTimeout(function() {
+                dlog('--- After 1s ---');
+                dlog('isFullscreen: ' + tg.isFullscreen);
+                dlog('window: ' + window.innerWidth + 'x' + window.innerHeight);
+
+                // lockOrientation после задержки
+                dlog('--- Calling lockOrientation ---');
+                try {
+                    tg.lockOrientation('landscape');
+                    dlog('lockOrientation() returned OK');
+                } catch(e) {
+                    dlog('lockOrientation() THREW: ' + e.message);
+                }
+
+                // Проверяем через ещё 1 секунду
+                setTimeout(function() {
+                    dlog('--- After 2s ---');
+                    dlog('isFullscreen: ' + tg.isFullscreen);
+                    dlog('window: ' + window.innerWidth + 'x' + window.innerHeight);
+                    dlog('orientation: ' + (screen.orientation ? screen.orientation.type : 'N/A'));
+                }, 1000);
+            }, 1000);
+
+        } else {
+            dlog('NOT in Telegram');
+        }
+
+        // Запуск игры через 3 секунды
+        setTimeout(function() {
+            dlog('--- Starting game ---');
+            try {
+                var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+                game.getRenderer().createStandardCanvas(document.body);
+                game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+                game.loadAllAssets(function() {
+                    dlog('Game running!');
+                    game.startGameLoop();
+                });
+            } catch(e) {
+                dlog('GAME ERROR: ' + e.message);
+            }
+        }, 3000);
     </script>
 </body>
 </html>
