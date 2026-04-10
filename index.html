@@ -10,8 +10,7 @@
     <style>
         *{margin:0;padding:0}
         html,body{width:100%;height:100%;background:#000;overflow:hidden;position:fixed;touch-action:none}
-        #canvasArea{position:fixed;top:0;left:0;overflow:hidden}
-        #canvasArea canvas{display:block}
+        #canvasArea{overflow:hidden}
     </style>
     <script src="libs/jshashtable.js"></script>
     <script src="logger.js"></script>
@@ -110,34 +109,86 @@
     <div id="canvasArea"></div>
     <script>
     (function(){
-        var isPortrait = window.innerHeight > window.innerWidth;
-        var area = document.getElementById("canvasArea");
-
-        if(isPortrait){
-            // Телефон в портрете: контейнер занимает весь экран но повёрнут
-            var w = window.innerHeight; // после поворота это будет ширина
-            var h = window.innerWidth;  // после поворота это будет высота
-            area.style.width = w + "px";
-            area.style.height = h + "px";
-            area.style.transform = "rotate(90deg)";
-            area.style.transformOrigin = "top left";
-            area.style.marginLeft = window.innerWidth + "px";
-
-            // Подменяем размеры окна чтобы GDevelop создал canvas правильного размера
-            Object.defineProperty(window, 'innerWidth', {get: function(){return w;}, configurable:true});
-            Object.defineProperty(window, 'innerHeight', {get: function(){return h;}, configurable:true});
-        } else {
-            // ПК или ландшафт: просто на весь экран
-            area.style.width = window.innerWidth + "px";
-            area.style.height = window.innerHeight + "px";
-        }
-
-        // Запускаем игру
         var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+        var area = document.getElementById("canvasArea");
         game.getRenderer().createStandardCanvas(area);
         game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+
+        function fitCanvas(){
+            var canvas = area.querySelector("canvas");
+            if(!canvas) return;
+
+            var screenW = window.innerWidth;
+            var screenH = window.innerHeight;
+            var isPortrait = screenH > screenW;
+
+            // Размер игры из проекта
+            var gameW = gdjs.projectData.properties.sizeOnStartupWindow.width || 1920;
+            var gameH = gdjs.projectData.properties.sizeOnStartupWindow.height || 1080;
+            var gameRatio = gameW / gameH;
+
+            if(isPortrait){
+                // Телефон в портрете: доступная область после поворота
+                var availW = screenH; // высота экрана станет шириной
+                var availH = screenW; // ширина экрана станет высотой
+
+                // Вписываем с сохранением пропорций
+                var scale = Math.min(availW / gameW, availH / gameH);
+                var finalW = gameW * scale;
+                var finalH = gameH * scale;
+
+                // Центрируем
+                var offsetX = (availW - finalW) / 2;
+                var offsetY = (availH - finalH) / 2;
+
+                area.style.position = "fixed";
+                area.style.width = availW + "px";
+                area.style.height = availH + "px";
+                area.style.top = "0";
+                area.style.left = "0";
+                area.style.transform = "rotate(90deg)";
+                area.style.transformOrigin = "top left";
+                area.style.marginLeft = screenW + "px";
+                area.style.background = "#000";
+
+                canvas.style.position = "absolute";
+                canvas.style.width = finalW + "px";
+                canvas.style.height = finalH + "px";
+                canvas.style.left = offsetX + "px";
+                canvas.style.top = offsetY + "px";
+            } else {
+                // ПК или ландшафт: вписываем и центрируем
+                var scale = Math.min(screenW / gameW, screenH / gameH);
+                var finalW = gameW * scale;
+                var finalH = gameH * scale;
+
+                var offsetX = (screenW - finalW) / 2;
+                var offsetY = (screenH - finalH) / 2;
+
+                area.style.position = "fixed";
+                area.style.width = screenW + "px";
+                area.style.height = screenH + "px";
+                area.style.top = "0";
+                area.style.left = "0";
+                area.style.transform = "none";
+                area.style.marginLeft = "0";
+                area.style.background = "#000";
+
+                canvas.style.position = "absolute";
+                canvas.style.width = finalW + "px";
+                canvas.style.height = finalH + "px";
+                canvas.style.left = offsetX + "px";
+                canvas.style.top = offsetY + "px";
+            }
+        }
+
         game.loadAllAssets(function() {
             game.startGameLoop();
+            // Даём движку 100мс создать canvas, потом подгоняем
+            setTimeout(fitCanvas, 100);
+            setTimeout(fitCanvas, 500);
+            setTimeout(fitCanvas, 1000);
+            window.addEventListener("resize", fitCanvas);
         });
     })();
     </script>
