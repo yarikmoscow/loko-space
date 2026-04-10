@@ -2,26 +2,40 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000"/>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
         html, body {
-            width: 100vw; height: 100vh;
-            overflow: hidden; background: #000;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            touch-action: none;
+            overscroll-behavior: none;
+            position: fixed;
+            inset: 0;
         }
-        #game-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100vw;
-            height: 100vh;
-            transform-origin: center center;
+        #game-root {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: #000;
+            touch-action: none;
         }
-        canvas { display: block; }
+        canvas {
+            display: block;
+            touch-action: none;
+        }
     </style>
 
     <script src="libs/jshashtable.js" crossorigin="anonymous"></script>
@@ -118,73 +132,272 @@
     <script src="data.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-<div id="game-container"></div>
+<div id="game-root"></div>
 
 <script>
 (function() {
-    var vw = window.innerWidth;
-    var vh = window.innerHeight;
-    var isPortrait = vh > vw;
+    "use strict";
 
-    // Если портрет — поворачиваем контейнер
-    if (isPortrait) {
-        var container = document.getElementById('game-container');
-        container.style.transform = 'rotate(90deg)';
-        container.style.width = vh + 'px';
-        container.style.height = vw + 'px';
+    var ROOT = document.getElementById('game-root');
+    var BASE_W = (gdjs.projectData && gdjs.projectData.properties && gdjs.projectData.properties.windowWidth) || 1920;
+    var BASE_H = (gdjs.projectData && gdjs.projectData.properties && gdjs.projectData.properties.windowHeight) || 1080;
+    var GAME_ASPECT = BASE_W / BASE_H;
+
+    /* ====== HELPERS ====== */
+
+    function getViewportSize() {
+        var vv = window.visualViewport;
+        return {
+            width: vv ? vv.width : window.innerWidth,
+            height: vv ? vv.height : window.innerHeight
+        };
     }
 
-    // Перехват тачей в capture phase — ДО GDevelop
-    if (isPortrait) {
-        function transformCoords(clientX, clientY) {
+    function getLayoutBox() {
+        var v = getViewportSize();
+        var screenW = v.width;
+        var screenH = v.height;
+        var portrait = screenH > screenW;
+
+        if (!portrait) {
+            var w = screenW;
+            var h = w / GAME_ASPECT;
+            if (h > screenH) { h = screenH; w = h * GAME_ASPECT; }
             return {
-                x: vh - clientY,
-                y: clientX
+                portrait: false,
+                screenW: screenW, screenH: screenH,
+                displayLeft: (screenW - w) / 2,
+                displayTop: (screenH - h) / 2,
+                displayWidth: w, displayHeight: h
             };
         }
 
-        function patchTouches(e) {
-            for (var i = 0; i < e.changedTouches.length; i++) {
-                var t = e.changedTouches[i];
-                var r = transformCoords(t.clientX, t.clientY);
-                Object.defineProperty(t, 'clientX', { value: r.x, writable: false });
-                Object.defineProperty(t, 'clientY', { value: r.y, writable: false });
-                Object.defineProperty(t, 'pageX', { value: r.x, writable: false });
-                Object.defineProperty(t, 'pageY', { value: r.y, writable: false });
-            }
-        }
+        var rotW = screenH;
+        var rotH = screenW;
+        var cw = rotW;
+        var ch = cw / GAME_ASPECT;
+        if (ch > rotH) { ch = rotH; cw = ch * GAME_ASPECT; }
 
-        document.addEventListener('touchstart', patchTouches, true);
-        document.addEventListener('touchmove', patchTouches, true);
-        document.addEventListener('touchend', patchTouches, true);
+        var dw = ch;
+        var dh = cw;
+        return {
+            portrait: true,
+            screenW: screenW, screenH: screenH,
+            displayLeft: (screenW - dw) / 2,
+            displayTop: (screenH - dh) / 2,
+            displayWidth: dw, displayHeight: dh
+        };
     }
 
-    // Перехватываем добавление canvas в body — перемещаем в контейнер
-    var observer = new MutationObserver(function(mutations) {
-        for (var i = 0; i < mutations.length; i++) {
-            for (var j = 0; j < mutations[i].addedNodes.length; j++) {
-                var node = mutations[i].addedNodes[j];
-                if (node.tagName === 'CANVAS') {
-                    var cont = document.getElementById('game-container');
-                    cont.appendChild(node);
-                    observer.disconnect();
-                    return;
-                }
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    function screenToGame(pageX, pageY) {
+        var box = getLayoutBox();
+
+        if (!box.portrait) {
+            var nx = (pageX - box.displayLeft) / (box.displayWidth || 1);
+            var ny = (pageY - box.displayTop) / (box.displayHeight || 1);
+            return [nx * BASE_W, ny * BASE_H];
+        }
+
+        var u = clamp((pageX - box.displayLeft) / (box.displayWidth || 1), 0, 1);
+        var v = clamp((pageY - box.displayTop) / (box.displayHeight || 1), 0, 1);
+
+        return [v * BASE_W, (1 - u) * BASE_H];
+    }
+
+    /* ====== MONKEY-PATCH: createStandardCanvas ====== */
+
+    var proto = gdjs.RuntimeGamePixiRenderer.prototype;
+    var _origCreate = proto.createStandardCanvas;
+
+    proto.createStandardCanvas = function(parentElement) {
+        _origCreate.call(this, ROOT);
+
+        if (this._gameCanvas) {
+            this._gameCanvas.style.transformOrigin = 'top left';
+            this._gameCanvas.style.position = 'fixed';
+        }
+        if (this._domElementsContainer) {
+            this._domElementsContainer.style.position = 'fixed';
+            this._domElementsContainer.style.pointerEvents = 'none';
+            this._domElementsContainer.style.transformOrigin = 'top left';
+        }
+        this._resizeCanvas();
+    };
+
+    /* ====== MONKEY-PATCH: _resizeCanvas ====== */
+
+    proto._resizeCanvas = function() {
+        if (!this._pixiRenderer || !this._gameCanvas) return;
+
+        var gameW = this._game.getGameResolutionWidth();
+        var gameH = this._game.getGameResolutionHeight();
+
+        if (this._pixiRenderer.width !== gameW || this._pixiRenderer.height !== gameH) {
+            this._pixiRenderer.resize(gameW, gameH);
+            if (this._threeRenderer) this._threeRenderer.setSize(gameW, gameH);
+        }
+
+        var box = getLayoutBox();
+        var canvas = this._gameCanvas;
+        var dom = this._domElementsContainer;
+
+        if (!box.portrait) {
+            canvas.style.left = box.displayLeft + 'px';
+            canvas.style.top = box.displayTop + 'px';
+            canvas.style.width = box.displayWidth + 'px';
+            canvas.style.height = box.displayHeight + 'px';
+            canvas.style.transform = 'none';
+            if (dom) {
+                dom.style.left = box.displayLeft + 'px';
+                dom.style.top = box.displayTop + 'px';
+                dom.style.width = box.displayWidth + 'px';
+                dom.style.height = box.displayHeight + 'px';
+                dom.style.transform = 'none';
+            }
+        } else {
+            canvas.style.left = box.displayLeft + 'px';
+            canvas.style.top = (box.displayTop + box.displayHeight) + 'px';
+            canvas.style.width = box.displayHeight + 'px';
+            canvas.style.height = box.displayWidth + 'px';
+            canvas.style.transform = 'rotate(-90deg)';
+            if (dom) {
+                dom.style.left = box.displayLeft + 'px';
+                dom.style.top = box.displayTop + 'px';
+                dom.style.width = box.displayWidth + 'px';
+                dom.style.height = box.displayHeight + 'px';
+                dom.style.transform = 'none';
             }
         }
-    });
-    observer.observe(document.body, { childList: true });
+        this._canvasWidth = box.displayWidth;
+        this._canvasHeight = box.displayHeight;
+    };
 
-    // Запуск GDevelop — canvas создаётся в body, observer перемещает его в контейнер
+    /* ====== MONKEY-PATCH: convertPageToGameCoords ====== */
+
+    proto.convertPageToGameCoords = function(pageX, pageY) {
+        return screenToGame(pageX, pageY);
+    };
+
+    /* ====== MONKEY-PATCH: bindStandardEvents (полная замена) ====== */
+
+    proto.bindStandardEvents = function(inputManager, runtimeWindow, runtimeDocument) {
+        var canvas = this._gameCanvas;
+        if (!canvas) return;
+        var self = this;
+
+        /* --- MOUSE --- */
+        canvas.onmousemove = function(e) {
+            var s = self.convertPageToGameCoords(e.pageX, e.pageY);
+            inputManager.onMouseMove(s[0], s[1]);
+        };
+
+        canvas.onmousedown = function(e) {
+            var s = self.convertPageToGameCoords(e.pageX, e.pageY);
+            inputManager.onMouseMove(s[0], s[1]);
+            var btn = e.button;
+            if (btn === 1) btn = gdjs.InputManager.MOUSE_MIDDLE_BUTTON;
+            else if (btn === 2) btn = gdjs.InputManager.MOUSE_RIGHT_BUTTON;
+            inputManager.onMouseButtonPressed(btn);
+            if (runtimeWindow.focus) runtimeWindow.focus();
+            return false;
+        };
+
+        canvas.onmouseup = function(e) {
+            var s = self.convertPageToGameCoords(e.pageX, e.pageY);
+            inputManager.onMouseMove(s[0], s[1]);
+            var btn = e.button;
+            if (btn === 1) btn = gdjs.InputManager.MOUSE_MIDDLE_BUTTON;
+            else if (btn === 2) btn = gdjs.InputManager.MOUSE_RIGHT_BUTTON;
+            inputManager.onMouseButtonReleased(btn);
+            return false;
+        };
+
+        canvas.onmouseleave = function() { inputManager.onMouseLeave(); };
+        canvas.onmouseenter = function() { inputManager.onMouseEnter(); };
+
+        canvas.onwheel = function(e) {
+            inputManager.onMouseWheel(e.deltaY);
+        };
+
+        canvas.oncontextmenu = function(e) { e.preventDefault(); return false; };
+
+        /* --- TOUCH (это главное для телефона) --- */
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            var touches = e.changedTouches;
+            for (var i = 0; i < touches.length; i++) {
+                var t = touches[i];
+                var s = self.convertPageToGameCoords(t.pageX, t.pageY);
+                inputManager.onTouchStart(t.identifier, s[0], s[1]);
+            }
+            return false;
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            var touches = e.changedTouches;
+            for (var i = 0; i < touches.length; i++) {
+                var t = touches[i];
+                var s = self.convertPageToGameCoords(t.pageX, t.pageY);
+                inputManager.onTouchMove(t.identifier, s[0], s[1]);
+            }
+            return false;
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            var touches = e.changedTouches;
+            for (var i = 0; i < touches.length; i++) {
+                var t = touches[i];
+                inputManager.onTouchEnd(t.identifier);
+            }
+            return false;
+        }, { passive: false });
+
+        canvas.addEventListener('touchcancel', function(e) {
+            e.preventDefault();
+            var touches = e.changedTouches;
+            for (var i = 0; i < touches.length; i++) {
+                inputManager.onTouchEnd(touches[i].identifier);
+            }
+            return false;
+        }, { passive: false });
+
+        /* --- KEYBOARD --- */
+        runtimeDocument.onkeydown = function(e) {
+            inputManager.onKeyPressed(e.keyCode, e.location);
+        };
+        runtimeDocument.onkeyup = function(e) {
+            inputManager.onKeyReleased(e.keyCode, e.location);
+        };
+
+        /* --- RESIZE --- */
+        var doResize = function() {
+            setTimeout(function() { self._resizeCanvas(); }, 0);
+        };
+        runtimeWindow.addEventListener('resize', doResize);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', doResize);
+            window.visualViewport.addEventListener('scroll', doResize);
+        }
+    };
+
+    /* ====== iOS gesture block ====== */
+    document.addEventListener('gesturestart', function(e) { e.preventDefault(); }, { passive: false });
+    document.addEventListener('gesturechange', function(e) { e.preventDefault(); }, { passive: false });
+    document.addEventListener('gestureend', function(e) { e.preventDefault(); }, { passive: false });
+
+    /* ====== LAUNCH ====== */
     var game = new gdjs.RuntimeGame(gdjs.projectData, {});
-    game.getRenderer().createStandardCanvas(document.body);
+    game.getRenderer().createStandardCanvas(ROOT);
     game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
     game.loadAllAssets(function() {
         game.startGameLoop();
     });
+
 })();
 </script>
-
 </body>
 </html>
