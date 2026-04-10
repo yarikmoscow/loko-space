@@ -21,19 +21,19 @@
             position: fixed;
 		}
         #canvasArea {
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
         }
-        /* Поворот canvas на 90 градусов по часовой стрелке */
         canvas {
-            transform-origin: top left;
-            transform: rotate(90deg) translateY(-100%);
-            width: 100vh !important;
-            height: 100vw !important;
+            display: block;
             position: fixed;
             top: 0;
             left: 0;
+            width: 100vh !important;
+            height: 100vw !important;
+            transform-origin: top left;
+            transform: rotate(90deg) translateY(-100vw);
         }
 	</style>
 
@@ -134,41 +134,48 @@
 
 <script>
 (function() {
-    // Запуск игры
     var game = new gdjs.RuntimeGame(gdjs.projectData, {});
     game.getRenderer().createStandardCanvas(document.body);
     game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
 
-    // Пересчёт координат тача (поворот 90° по часовой)
-    // Экранный тач (sx, sy) → игровой (canvas.height - sy, sx)
-    var originalOnTouchStart = game.getInputManager().onTouchStart;
-    var originalOnTouchMove = game.getInputManager().onTouchMove;
+    // Перехват тачей — пересчёт координат из повёрнутого экрана
+    var canvas = document.querySelector('canvas');
 
-    if (originalOnTouchStart) {
-        game.getInputManager().onTouchStart = function(id, x, y) {
-            var canvas = document.querySelector('canvas');
+    canvas.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+        var touches = e.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            var t = touches[i];
             var rect = canvas.getBoundingClientRect();
-            // Нормализуем координаты относительно видимого rect
-            var normX = (x - rect.left) / rect.width;
-            var normY = (y - rect.top) / rect.height;
-            // Поворот: экранный (normX, normY) → игровой (normY, 1-normX)
-            var gameX = normY * canvas.width;
-            var gameY = (1 - normX) * canvas.height;
-            return originalOnTouchStart.call(this, id, gameX, gameY);
-        };
-    }
+            var normX = (t.clientX - rect.left) / rect.width;
+            var normY = (t.clientY - rect.top) / rect.height;
+            var gameX = normY * 1920;
+            var gameY = (1 - normX) * 1080;
+            game.getInputManager().onTouchStart(t.identifier, gameX + rect.left, gameY + rect.top);
+        }
+    }, true);
 
-    if (originalOnTouchMove) {
-        game.getInputManager().onTouchMove = function(id, x, y) {
-            var canvas = document.querySelector('canvas');
+    canvas.addEventListener('touchmove', function(e) {
+        e.stopPropagation();
+        var touches = e.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            var t = touches[i];
             var rect = canvas.getBoundingClientRect();
-            var normX = (x - rect.left) / rect.width;
-            var normY = (y - rect.top) / rect.height;
-            var gameX = normY * canvas.width;
-            var gameY = (1 - normX) * canvas.height;
-            return originalOnTouchMove.call(this, id, gameX, gameY);
-        };
-    }
+            var normX = (t.clientX - rect.left) / rect.width;
+            var normY = (t.clientY - rect.top) / rect.height;
+            var gameX = normY * 1920;
+            var gameY = (1 - normX) * 1080;
+            game.getInputManager().onTouchMove(t.identifier, gameX + rect.left, gameY + rect.top);
+        }
+    }, true);
+
+    canvas.addEventListener('touchend', function(e) {
+        e.stopPropagation();
+        var touches = e.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            game.getInputManager().onTouchEnd(touches[i].identifier);
+        }
+    }, true);
 
     game.loadAllAssets(function() {
         game.startGameLoop();
