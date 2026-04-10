@@ -10,15 +10,11 @@
     <style>
         * { margin: 0; padding: 0; }
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
             background: #000;
-        }
-        canvas {
-            display: block;
-            width: 100vw !important;
-            height: 100vh !important;
+            position: fixed;
         }
     </style>
 
@@ -118,35 +114,79 @@
 <body>
 
 <script>
-
-// Подменяем screen.orientation чтобы GDevelop думал что экран горизонтальный
-try {
-    Object.defineProperty(screen.orientation, 'type', {
-        get: function() { return 'landscape-primary'; }
-    });
-    Object.defineProperty(screen.orientation, 'angle', {
-        get: function() { return 90; }
-    });
-} catch(e) {}
-
-// Подменяем размеры экрана — меняем ширину и высоту местами
-var realW = window.innerWidth;
-var realH = window.innerHeight;
-
-if (realH > realW) {
-    // Телефон в портрете — подменяем
-    Object.defineProperty(window, 'innerWidth', { get: function() { return realH; } });
-    Object.defineProperty(window, 'innerHeight', { get: function() { return realW; } });
-    Object.defineProperty(document.documentElement, 'clientWidth', { get: function() { return realH; } });
-    Object.defineProperty(document.documentElement, 'clientHeight', { get: function() { return realW; } });
-    Object.defineProperty(screen, 'width', { get: function() { return realH; } });
-    Object.defineProperty(screen, 'height', { get: function() { return realW; } });
-}
-
 (function() {
+
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var isPortrait = vh > vw;
+
     var game = new gdjs.RuntimeGame(gdjs.projectData, {});
     game.getRenderer().createStandardCanvas(document.body);
     game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+
+    var canvas = document.querySelector('canvas');
+
+    if (isPortrait) {
+        // Телефон вертикально — поворачиваем canvas на 90° вправо
+        // Canvas рисует игру 1920x1080
+        // Экран телефона например 412x915 (portrait)
+        // После поворота: ширина canvas (1920) ложится на высоту экрана (915)
+        //                  высота canvas (1080) ложится на ширину экрана (412)
+
+        canvas.style.position = 'fixed';
+        canvas.style.transformOrigin = 'top left';
+        canvas.style.transform = 'rotate(90deg) translateY(-100%)';
+        canvas.style.width = vh + 'px';
+        canvas.style.height = vw + 'px';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+
+        // Перехват тачей — пересчёт координат
+        // При rotate(90deg) translateY(-100%):
+        // Визуально canvas занимает весь экран
+        // Палец (screenX, screenY) -> координаты в canvas:
+        //   canvasX = screenY / vh * canvasWidth
+        //   canvasY = (1 - screenX / vw) * canvasHeight
+
+        var origOnTouchStart = game.getInputManager().onTouchStart.bind(game.getInputManager());
+        var origOnTouchMove = game.getInputManager().onTouchMove.bind(game.getInputManager());
+
+        function remapTouch(clientX, clientY) {
+            var cw = canvas.width;
+            var ch = canvas.height;
+            var gameX = (clientY / vh) * cw;
+            var gameY = (1 - clientX / vw) * ch;
+            return { x: gameX, y: gameY };
+        }
+
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                var t = e.changedTouches[i];
+                var r = remapTouch(t.clientX, t.clientY);
+                origOnTouchStart(t.identifier, r.x, r.y);
+            }
+        }, true);
+
+        canvas.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                var t = e.changedTouches[i];
+                var r = remapTouch(t.clientX, t.clientY);
+                origOnTouchMove(t.identifier, r.x, r.y);
+            }
+        }, true);
+
+        canvas.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                game.getInputManager().onTouchEnd(e.changedTouches[i].identifier);
+            }
+        }, true);
+    }
+
     game.loadAllAssets(function() {
         game.startGameLoop();
     });
