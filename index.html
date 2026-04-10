@@ -10,9 +10,20 @@
     <style>
         *{margin:0;padding:0}
         html,body{width:100%;height:100%;background:#000;overflow:hidden;position:fixed;touch-action:none}
-        #game-wrapper{position:fixed;top:0;left:0;width:100vh;height:100vw;transform:rotate(90deg);transform-origin:top left;margin-left:100vw;overflow:hidden}
-        #canvasArea{width:100%!important;height:100%!important}
+        #canvasArea{width:100vw!important;height:100vh!important;overflow:hidden}
         #canvasArea canvas{width:100%!important;height:100%!important;display:block}
+
+        @media screen and (orientation: portrait) {
+            #canvasArea{
+                position:fixed;
+                top:0;left:0;
+                width:100vh!important;
+                height:100vw!important;
+                transform:rotate(90deg);
+                transform-origin:top left;
+                margin-left:100vw;
+            }
+        }
     </style>
     <script src="libs/jshashtable.js"></script>
     <script src="logger.js"></script>
@@ -108,9 +119,7 @@
     <script src="data.js"></script>
 </head>
 <body>
-    <div id="game-wrapper">
-        <div id="canvasArea"></div>
-    </div>
+    <div id="canvasArea"></div>
     <script>
         var game = new gdjs.RuntimeGame(gdjs.projectData, {});
         game.getRenderer().createStandardCanvas(document.getElementById("canvasArea"));
