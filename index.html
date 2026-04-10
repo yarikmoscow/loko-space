@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translacent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <style>
@@ -114,80 +114,67 @@
         game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
 
         function applyLayout(){
-            var sw = window.screen.availWidth || window.innerWidth;
-            var sh = window.screen.availHeight || window.innerHeight;
             var iw = window.innerWidth;
             var ih = window.innerHeight;
             var isPortrait = ih > iw;
 
+            // Узнаём реальный размер canvasArea после того как GDevelop его настроил
+            var rect = area.getBoundingClientRect();
+            var areaW = rect.width;
+            var areaH = rect.height;
+
+            // Сбрасываем transform чтобы getBoundingClientRect давал правильные значения
+            // (уже получили rect до transform)
+
             if(isPortrait){
-                // Телефон портрет: поворачиваем весь canvasArea
-                // После поворота на 90deg: ширина = ih, высота = iw
-                // GDevelop отрисовал canvas размером iw x ih (узкий высокий)
-                // Нам нужно его масштабировать чтобы после поворота он заполнил экран
-
-                var canvasW = iw; // реальная ширина canvas от GDevelop
-                var canvasH = ih; // реальная высота canvas от GDevelop
-
-                // После поворота на 90deg canvas станет: ширина=canvasH, высота=canvasW
-                // Доступная область: ширина=iw, высота=ih
-                // Нет, после rotate(90deg) визуально: ширина экрана=iw, высота=ih
-                // Canvas повёрнут: его визуальная ширина = canvasH, визуальная высота = canvasW
-
-                // Масштаб чтобы визуальная ширина canvasH заполнила ширину экрана iw
-                var scaleX = iw / canvasH;
-                // Масштаб чтобы визуальная высота canvasW заполнила высоту экрана ih
-                var scaleY = ih / canvasW;
-
-                // Берём минимальный чтобы вписать с сохранением пропорций
+                // Телефон портрет
+                // После rotate(90deg): визуально ширина=areaH, высота=areaW
+                // Экран: ширина=iw, высота=ih
+                // Нужно чтобы повёрнутый canvas заполнил экран
+                var scaleX = iw / areaH;
+                var scaleY = ih / areaW;
                 var s = Math.min(scaleX, scaleY);
 
-                var finalVisualW = canvasH * s;
-                var finalVisualH = canvasW * s;
+                // Центрирование после поворота
+                var visW = areaH * s;
+                var visH = areaW * s;
+                var cx = (iw - visW) / 2;
+                var cy = (ih - visH) / 2;
 
-                var offsetX = (iw - finalVisualW) / 2;
-                var offsetY = (ih - finalVisualH) / 2;
-
+                // translate перемещает в центр, потом rotate, потом scale
+                // rotate(90deg) вокруг 0,0 сдвигает вправо на areaH*s
                 area.style.cssText =
-                    "position:fixed;"+
-                    "left:0;top:0;"+
-                    "width:"+canvasW+"px;"+
-                    "height:"+canvasH+"px;"+
+                    "position:fixed;top:0;left:0;overflow:hidden;"+
                     "transform-origin:0 0;"+
-                    "transform:translate("+offsetX+"px,"+offsetY+"px) translate("+finalVisualH+"px, 0px) rotate(90deg) scale("+s+");"+
-                    "overflow:hidden;background:#000;";
+                    "transform:"+
+                        "translate("+(cx + visW)+"px, "+cy+"px) "+
+                        "rotate(90deg) "+
+                        "scale("+s+");";
             } else {
-                // ПК / ландшафт: вписываем и центрируем
-                var canvas = area.querySelector("canvas");
-                var canvasW = canvas ? canvas.width : iw;
-                var canvasH = canvas ? canvas.height : ih;
-
-                var scaleX = iw / canvasW;
-                var scaleY = ih / canvasH;
+                // ПК / ландшафт
+                var scaleX = iw / areaW;
+                var scaleY = ih / areaH;
                 var s = Math.min(scaleX, scaleY);
 
-                var finalW = canvasW * s;
-                var finalH = canvasH * s;
-                var offsetX = (iw - finalW) / 2;
-                var offsetY = (ih - finalH) / 2;
+                var visW = areaW * s;
+                var visH = areaH * s;
+                var cx = (iw - visW) / 2;
+                var cy = (ih - visH) / 2;
 
                 area.style.cssText =
-                    "position:fixed;"+
-                    "left:0;top:0;"+
-                    "width:"+canvasW+"px;"+
-                    "height:"+canvasH+"px;"+
+                    "position:fixed;top:0;left:0;overflow:hidden;"+
                     "transform-origin:0 0;"+
-                    "transform:translate("+offsetX+"px,"+offsetY+"px) scale("+s+");"+
-                    "overflow:hidden;background:#000;";
+                    "transform:"+
+                        "translate("+cx+"px, "+cy+"px) "+
+                        "scale("+s+");";
             }
         }
 
         game.loadAllAssets(function(){
             game.startGameLoop();
-            setTimeout(applyLayout, 200);
-            setTimeout(applyLayout, 600);
-            setTimeout(applyLayout, 1500);
-            setTimeout(applyLayout, 3000);
+            // Несколько попыток — GDevelop может менять размер canvas с задержкой
+            var times = [100,300,600,1000,2000,4000];
+            times.forEach(function(t){ setTimeout(applyLayout, t); });
             window.addEventListener("resize", function(){ setTimeout(applyLayout, 100); });
         });
     })();
