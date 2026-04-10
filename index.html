@@ -10,6 +10,7 @@
     <style>
         *{margin:0;padding:0}
         html,body{width:100%;height:100%;background:#000;overflow:hidden;position:fixed;touch-action:none}
+        #canvasArea{transform-origin:0 0}
     </style>
     <script src="libs/jshashtable.js"></script>
     <script src="logger.js"></script>
@@ -107,11 +108,63 @@
 <body>
     <div id="canvasArea"></div>
     <script>
-        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+    (function(){
+        // Подмена innerWidth/innerHeight ДО создания игры
+        // Если портрет — говорим движку что экран повёрнут
+        var realW = window.innerWidth;
+        var realH = window.innerHeight;
+        var isPortrait = realH > realW;
+
+        if(isPortrait){
+            Object.defineProperty(window, '__gdFakeW', {value: realH, writable: true});
+            Object.defineProperty(window, '__gdFakeH', {value: realW, writable: true});
+            Object.defineProperty(window, '__gdPortrait', {value: true, writable: true});
+
+            // Перехватываем getWindowInnerWidth/Height в классе рендерера
+            var origGetW = gdjs.RuntimeGamePixiRenderer.getWindowInnerWidth;
+            var origGetH = gdjs.RuntimeGamePixiRenderer.getWindowInnerHeight;
+            gdjs.RuntimeGamePixiRenderer.getWindowInnerWidth = function(){
+                var w = window.innerWidth, h = window.innerHeight;
+                return h > w ? h : w;
+            };
+            gdjs.RuntimeGamePixiRenderer.getWindowInnerHeight = function(){
+                var w = window.innerWidth, h = window.innerHeight;
+                return h > w ? w : h;
+            };
+        }
+
         var area = document.getElementById("canvasArea");
+        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
         game.getRenderer().createStandardCanvas(area);
         game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-        game.loadAllAssets(function(){game.startGameLoop()});
+
+        function applyRotation(){
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            if(h > w){
+                // Портрет: поворачиваем canvasArea
+                area.style.transformOrigin = "0 0";
+                area.style.transform = "rotate(90deg) translate(0, -" + w + "px)";
+                area.style.width = h + "px";
+                area.style.height = w + "px";
+            } else {
+                area.style.transform = "none";
+                area.style.width = "100%";
+                area.style.height = "100%";
+            }
+        }
+
+        game.loadAllAssets(function(){
+            game.startGameLoop();
+            applyRotation();
+            setTimeout(applyRotation, 500);
+            setTimeout(applyRotation, 2000);
+        });
+
+        window.addEventListener("resize", function(){
+            setTimeout(applyRotation, 100);
+        });
+    })();
     </script>
 </body>
 </html>
