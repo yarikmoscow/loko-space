@@ -10,20 +10,8 @@
     <style>
         *{margin:0;padding:0}
         html,body{width:100%;height:100%;background:#000;overflow:hidden;position:fixed;touch-action:none}
-        #canvasArea{width:100vw!important;height:100vh!important;overflow:hidden}
-        #canvasArea canvas{width:100%!important;height:100%!important;display:block}
-
-        @media screen and (orientation: portrait) {
-            #canvasArea{
-                position:fixed;
-                top:0;left:0;
-                width:100vh!important;
-                height:100vw!important;
-                transform:rotate(90deg);
-                transform-origin:top left;
-                margin-left:100vw;
-            }
-        }
+        #canvasArea{position:fixed;top:0;left:0;overflow:hidden}
+        #canvasArea canvas{display:block}
     </style>
     <script src="libs/jshashtable.js"></script>
     <script src="logger.js"></script>
@@ -121,12 +109,37 @@
 <body>
     <div id="canvasArea"></div>
     <script>
+    (function(){
+        var isPortrait = window.innerHeight > window.innerWidth;
+        var area = document.getElementById("canvasArea");
+
+        if(isPortrait){
+            // Телефон в портрете: контейнер занимает весь экран но повёрнут
+            var w = window.innerHeight; // после поворота это будет ширина
+            var h = window.innerWidth;  // после поворота это будет высота
+            area.style.width = w + "px";
+            area.style.height = h + "px";
+            area.style.transform = "rotate(90deg)";
+            area.style.transformOrigin = "top left";
+            area.style.marginLeft = window.innerWidth + "px";
+
+            // Подменяем размеры окна чтобы GDevelop создал canvas правильного размера
+            Object.defineProperty(window, 'innerWidth', {get: function(){return w;}, configurable:true});
+            Object.defineProperty(window, 'innerHeight', {get: function(){return h;}, configurable:true});
+        } else {
+            // ПК или ландшафт: просто на весь экран
+            area.style.width = window.innerWidth + "px";
+            area.style.height = window.innerHeight + "px";
+        }
+
+        // Запускаем игру
         var game = new gdjs.RuntimeGame(gdjs.projectData, {});
-        game.getRenderer().createStandardCanvas(document.getElementById("canvasArea"));
+        game.getRenderer().createStandardCanvas(area);
         game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
         game.loadAllAssets(function() {
             game.startGameLoop();
         });
+    })();
     </script>
 </body>
 </html>
