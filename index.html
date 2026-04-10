@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#000000"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
+        *{margin:0;padding:0}
         html,body{width:100%;height:100%;background:#000;overflow:hidden;position:fixed;touch-action:none}
     </style>
     <script src="libs/jshashtable.js"></script>
@@ -107,77 +107,11 @@
 <body>
     <div id="canvasArea"></div>
     <script>
-    (function(){
-        var area = document.getElementById("canvasArea");
         var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+        var area = document.getElementById("canvasArea");
         game.getRenderer().createStandardCanvas(area);
         game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-
-        function applyLayout(){
-            var iw = window.innerWidth;
-            var ih = window.innerHeight;
-            var isPortrait = ih > iw;
-
-            // Узнаём реальный размер canvasArea после того как GDevelop его настроил
-            var rect = area.getBoundingClientRect();
-            var areaW = rect.width;
-            var areaH = rect.height;
-
-            // Сбрасываем transform чтобы getBoundingClientRect давал правильные значения
-            // (уже получили rect до transform)
-
-            if(isPortrait){
-                // Телефон портрет
-                // После rotate(90deg): визуально ширина=areaH, высота=areaW
-                // Экран: ширина=iw, высота=ih
-                // Нужно чтобы повёрнутый canvas заполнил экран
-                var scaleX = iw / areaH;
-                var scaleY = ih / areaW;
-                var s = Math.min(scaleX, scaleY);
-
-                // Центрирование после поворота
-                var visW = areaH * s;
-                var visH = areaW * s;
-                var cx = (iw - visW) / 2;
-                var cy = (ih - visH) / 2;
-
-                // translate перемещает в центр, потом rotate, потом scale
-                // rotate(90deg) вокруг 0,0 сдвигает вправо на areaH*s
-                area.style.cssText =
-                    "position:fixed;top:0;left:0;overflow:hidden;"+
-                    "transform-origin:0 0;"+
-                    "transform:"+
-                        "translate("+(cx + visW)+"px, "+cy+"px) "+
-                        "rotate(90deg) "+
-                        "scale("+s+");";
-            } else {
-                // ПК / ландшафт
-                var scaleX = iw / areaW;
-                var scaleY = ih / areaH;
-                var s = Math.min(scaleX, scaleY);
-
-                var visW = areaW * s;
-                var visH = areaH * s;
-                var cx = (iw - visW) / 2;
-                var cy = (ih - visH) / 2;
-
-                area.style.cssText =
-                    "position:fixed;top:0;left:0;overflow:hidden;"+
-                    "transform-origin:0 0;"+
-                    "transform:"+
-                        "translate("+cx+"px, "+cy+"px) "+
-                        "scale("+s+");";
-            }
-        }
-
-        game.loadAllAssets(function(){
-            game.startGameLoop();
-            // Несколько попыток — GDevelop может менять размер canvas с задержкой
-            var times = [100,300,600,1000,2000,4000];
-            times.forEach(function(t){ setTimeout(applyLayout, t); });
-            window.addEventListener("resize", function(){ setTimeout(applyLayout, 100); });
-        });
-    })();
+        game.loadAllAssets(function(){game.startGameLoop()});
     </script>
 </body>
 </html>
