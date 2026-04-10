@@ -3,39 +3,24 @@
 <head>
     <meta charset="UTF-8"/>
     <link rel="manifest" href="manifest.webmanifest">
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <meta name="theme-color" content="#000000" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			background-color: #000000;
+    <style>
+        * { margin: 0; padding: 0; }
+        html, body {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-		}
-        #canvasArea {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
+            background: #000;
         }
         canvas {
             display: block;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vh !important;
-            height: 100vw !important;
-            transform-origin: top left;
-            transform: rotate(90deg) translateY(-100vw);
+            width: 100vw !important;
+            height: 100vh !important;
         }
-	</style>
+    </style>
 
 	<script src="libs/jshashtable.js" crossorigin="anonymous"></script>
 	<script src="logger.js" crossorigin="anonymous"></script>
@@ -133,50 +118,35 @@
 <body>
 
 <script>
+
+// Подменяем screen.orientation чтобы GDevelop думал что экран горизонтальный
+try {
+    Object.defineProperty(screen.orientation, 'type', {
+        get: function() { return 'landscape-primary'; }
+    });
+    Object.defineProperty(screen.orientation, 'angle', {
+        get: function() { return 90; }
+    });
+} catch(e) {}
+
+// Подменяем размеры экрана — меняем ширину и высоту местами
+var realW = window.innerWidth;
+var realH = window.innerHeight;
+
+if (realH > realW) {
+    // Телефон в портрете — подменяем
+    Object.defineProperty(window, 'innerWidth', { get: function() { return realH; } });
+    Object.defineProperty(window, 'innerHeight', { get: function() { return realW; } });
+    Object.defineProperty(document.documentElement, 'clientWidth', { get: function() { return realH; } });
+    Object.defineProperty(document.documentElement, 'clientHeight', { get: function() { return realW; } });
+    Object.defineProperty(screen, 'width', { get: function() { return realH; } });
+    Object.defineProperty(screen, 'height', { get: function() { return realW; } });
+}
+
 (function() {
     var game = new gdjs.RuntimeGame(gdjs.projectData, {});
     game.getRenderer().createStandardCanvas(document.body);
     game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-
-    // Перехват тачей — пересчёт координат из повёрнутого экрана
-    var canvas = document.querySelector('canvas');
-
-    canvas.addEventListener('touchstart', function(e) {
-        e.stopPropagation();
-        var touches = e.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            var t = touches[i];
-            var rect = canvas.getBoundingClientRect();
-            var normX = (t.clientX - rect.left) / rect.width;
-            var normY = (t.clientY - rect.top) / rect.height;
-            var gameX = normY * 1920;
-            var gameY = (1 - normX) * 1080;
-            game.getInputManager().onTouchStart(t.identifier, gameX + rect.left, gameY + rect.top);
-        }
-    }, true);
-
-    canvas.addEventListener('touchmove', function(e) {
-        e.stopPropagation();
-        var touches = e.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            var t = touches[i];
-            var rect = canvas.getBoundingClientRect();
-            var normX = (t.clientX - rect.left) / rect.width;
-            var normY = (t.clientY - rect.top) / rect.height;
-            var gameX = normY * 1920;
-            var gameY = (1 - normX) * 1080;
-            game.getInputManager().onTouchMove(t.identifier, gameX + rect.left, gameY + rect.top);
-        }
-    }, true);
-
-    canvas.addEventListener('touchend', function(e) {
-        e.stopPropagation();
-        var touches = e.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            game.getInputManager().onTouchEnd(touches[i].identifier);
-        }
-    }, true);
-
     game.loadAllAssets(function() {
         game.startGameLoop();
     });
