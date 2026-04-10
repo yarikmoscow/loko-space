@@ -16,11 +16,24 @@
 			padding: 0;
 			background-color: #000000;
             overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
 		}
         #canvasArea {
             margin-left: auto;
             margin-right: auto;
             overflow: hidden;
+        }
+        /* Поворот canvas на 90 градусов по часовой стрелке */
+        canvas {
+            transform-origin: top left;
+            transform: rotate(90deg) translateY(-100%);
+            width: 100vh !important;
+            height: 100vw !important;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 	</style>
 
@@ -120,32 +133,47 @@
 <body>
 
 <script>
-    (function() {
-        // Полный экран по первому тапу
-        function goFullscreen() {
-            var el = document.documentElement;
-            if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
-            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-            else if (el.msRequestFullscreen) el.msRequestFullscreen();
-            document.removeEventListener('touchstart', goFullscreen);
-            document.removeEventListener('click', goFullscreen);
-        }
-        document.addEventListener('touchstart', goFullscreen);
-        document.addEventListener('click', goFullscreen);
+(function() {
+    // Запуск игры
+    var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+    game.getRenderer().createStandardCanvas(document.body);
+    game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
 
-        // Блокировка альбомной ориентации
-        if (screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').catch(function(){});
-        }
+    // Пересчёт координат тача (поворот 90° по часовой)
+    // Экранный тач (sx, sy) → игровой (canvas.height - sy, sx)
+    var originalOnTouchStart = game.getInputManager().onTouchStart;
+    var originalOnTouchMove = game.getInputManager().onTouchMove;
 
-        // Запуск игры (оригинальный код GDevelop)
-        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
-        game.getRenderer().createStandardCanvas(document.body);
-        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-        game.loadAllAssets(function() {
-            game.startGameLoop();
-        });
-    })();
+    if (originalOnTouchStart) {
+        game.getInputManager().onTouchStart = function(id, x, y) {
+            var canvas = document.querySelector('canvas');
+            var rect = canvas.getBoundingClientRect();
+            // Нормализуем координаты относительно видимого rect
+            var normX = (x - rect.left) / rect.width;
+            var normY = (y - rect.top) / rect.height;
+            // Поворот: экранный (normX, normY) → игровой (normY, 1-normX)
+            var gameX = normY * canvas.width;
+            var gameY = (1 - normX) * canvas.height;
+            return originalOnTouchStart.call(this, id, gameX, gameY);
+        };
+    }
+
+    if (originalOnTouchMove) {
+        game.getInputManager().onTouchMove = function(id, x, y) {
+            var canvas = document.querySelector('canvas');
+            var rect = canvas.getBoundingClientRect();
+            var normX = (x - rect.left) / rect.width;
+            var normY = (y - rect.top) / rect.height;
+            var gameX = normY * canvas.width;
+            var gameY = (1 - normX) * canvas.height;
+            return originalOnTouchMove.call(this, id, gameX, gameY);
+        };
+    }
+
+    game.loadAllAssets(function() {
+        game.startGameLoop();
+    });
+})();
 </script>
 
 </body>
