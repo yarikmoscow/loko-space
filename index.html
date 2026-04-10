@@ -2,191 +2,184 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000"/>
     <style>
-        * { margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body {
+            width: 100vw; height: 100vh;
+            overflow: hidden; background: #000;
+        }
+        #game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100vw;
             height: 100vh;
-            overflow: hidden;
-            background: #000;
-            position: fixed;
+            transform-origin: center center;
         }
+        canvas { display: block; }
     </style>
 
-	<script src="libs/jshashtable.js" crossorigin="anonymous"></script>
-	<script src="logger.js" crossorigin="anonymous"></script>
-	<script src="gd.js" crossorigin="anonymous"></script>
-	<script src="libs/rbush.js" crossorigin="anonymous"></script>
-	<script src="AsyncTasksManager.js" crossorigin="anonymous"></script>
-	<script src="inputmanager.js" crossorigin="anonymous"></script>
-	<script src="jsonmanager.js" crossorigin="anonymous"></script>
-	<script src="Model3DManager.js" crossorigin="anonymous"></script>
-	<script src="ResourceLoader.js" crossorigin="anonymous"></script>
-	<script src="ResourceCache.js" crossorigin="anonymous"></script>
-	<script src="timemanager.js" crossorigin="anonymous"></script>
-	<script src="polygon.js" crossorigin="anonymous"></script>
-	<script src="runtimeobject.js" crossorigin="anonymous"></script>
-	<script src="profiler.js" crossorigin="anonymous"></script>
-	<script src="RuntimeInstanceContainer.js" crossorigin="anonymous"></script>
-	<script src="runtimescene.js" crossorigin="anonymous"></script>
-	<script src="scenestack.js" crossorigin="anonymous"></script>
-	<script src="force.js" crossorigin="anonymous"></script>
-	<script src="RuntimeLayer.js" crossorigin="anonymous"></script>
-	<script src="layer.js" crossorigin="anonymous"></script>
-	<script src="RuntimeCustomObjectLayer.js" crossorigin="anonymous"></script>
-	<script src="timer.js" crossorigin="anonymous"></script>
-	<script src="runtimewatermark.js" crossorigin="anonymous"></script>
-	<script src="runtimegame.js" crossorigin="anonymous"></script>
-	<script src="variable.js" crossorigin="anonymous"></script>
-	<script src="variablescontainer.js" crossorigin="anonymous"></script>
-	<script src="oncetriggers.js" crossorigin="anonymous"></script>
-	<script src="runtimebehavior.js" crossorigin="anonymous"></script>
-	<script src="SpriteAnimator.js" crossorigin="anonymous"></script>
-	<script src="spriteruntimeobject.js" crossorigin="anonymous"></script>
-	<script src="affinetransformation.js" crossorigin="anonymous"></script>
-	<script src="CustomRuntimeObjectInstanceContainer.js" crossorigin="anonymous"></script>
-	<script src="CustomRuntimeObject.js" crossorigin="anonymous"></script>
-	<script src="CustomRuntimeObject2D.js" crossorigin="anonymous"></script>
-	<script src="indexeddb.js" crossorigin="anonymous"></script>
-	<script src="events-tools/commontools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/variabletools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/runtimescenetools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/inputtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/objecttools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/cameratools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/soundtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/storagetools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/stringtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/windowtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/networktools.js" crossorigin="anonymous"></script>
-	<script src="splash/gd-logo-light.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-filters-tools.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/runtimegame-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/runtimescene-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/layer-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-image-manager.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-bitmapfont-manager.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/spriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/CustomRuntimeObject2DPixiRenderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/DebuggerPixiRenderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/loadingscreen-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-effects-manager.js" crossorigin="anonymous"></script>
-	<script src="howler-sound-manager/howler.min.js" crossorigin="anonymous"></script>
-	<script src="howler-sound-manager/howler-sound-manager.js" crossorigin="anonymous"></script>
-	<script src="fontfaceobserver-font-manager/fontfaceobserver.js" crossorigin="anonymous"></script>
-	<script src="fontfaceobserver-font-manager/fontfaceobserver-font-manager.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__flash__colortint-func.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__flash__istinted-func.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__flash__togglecolortint-func.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__flash__togglevisibility-func.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TextObject/textruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TextObject/textruntimeobject.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TweenBehavior/TweenManager.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TweenBehavior/tweenruntimebehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/AnimatableBehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/EffectBehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/FlippableBehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/OpacityBehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/ResizableBehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/ScalableBehavior.js" crossorigin="anonymous"></script>
-	<script src="object-capabilities/TextContainerBehavior.js" crossorigin="anonymous"></script>
-	<script src="Extensions/3D/DirectionalLight.js" crossorigin="anonymous"></script>
-	<script src="Extensions/3D/HemisphereLight.js" crossorigin="anonymous"></script>
-	<script src="code0.js" crossorigin="anonymous"></script>
-	<script src="code1.js" crossorigin="anonymous"></script>
-	<script src="code2.js" crossorigin="anonymous"></script>
-	<script src="code3.js" crossorigin="anonymous"></script>
-	<script src="code4.js" crossorigin="anonymous"></script>
-	<script src="code5.js" crossorigin="anonymous"></script>
-	<script src="code6.js" crossorigin="anonymous"></script>
-	<script src="code7.js" crossorigin="anonymous"></script>
-	<script src="code8.js" crossorigin="anonymous"></script>
-	<script src="code9.js" crossorigin="anonymous"></script>
-	<script src="code10.js" crossorigin="anonymous"></script>
-	<script src="data.js" crossorigin="anonymous"></script>
+    <script src="libs/jshashtable.js" crossorigin="anonymous"></script>
+    <script src="logger.js" crossorigin="anonymous"></script>
+    <script src="gd.js" crossorigin="anonymous"></script>
+    <script src="libs/rbush.js" crossorigin="anonymous"></script>
+    <script src="AsyncTasksManager.js" crossorigin="anonymous"></script>
+    <script src="inputmanager.js" crossorigin="anonymous"></script>
+    <script src="jsonmanager.js" crossorigin="anonymous"></script>
+    <script src="Model3DManager.js" crossorigin="anonymous"></script>
+    <script src="ResourceLoader.js" crossorigin="anonymous"></script>
+    <script src="ResourceCache.js" crossorigin="anonymous"></script>
+    <script src="timemanager.js" crossorigin="anonymous"></script>
+    <script src="polygon.js" crossorigin="anonymous"></script>
+    <script src="runtimeobject.js" crossorigin="anonymous"></script>
+    <script src="profiler.js" crossorigin="anonymous"></script>
+    <script src="RuntimeInstanceContainer.js" crossorigin="anonymous"></script>
+    <script src="runtimescene.js" crossorigin="anonymous"></script>
+    <script src="scenestack.js" crossorigin="anonymous"></script>
+    <script src="force.js" crossorigin="anonymous"></script>
+    <script src="RuntimeLayer.js" crossorigin="anonymous"></script>
+    <script src="layer.js" crossorigin="anonymous"></script>
+    <script src="RuntimeCustomObjectLayer.js" crossorigin="anonymous"></script>
+    <script src="timer.js" crossorigin="anonymous"></script>
+    <script src="runtimewatermark.js" crossorigin="anonymous"></script>
+    <script src="runtimegame.js" crossorigin="anonymous"></script>
+    <script src="variable.js" crossorigin="anonymous"></script>
+    <script src="variablescontainer.js" crossorigin="anonymous"></script>
+    <script src="oncetriggers.js" crossorigin="anonymous"></script>
+    <script src="runtimebehavior.js" crossorigin="anonymous"></script>
+    <script src="SpriteAnimator.js" crossorigin="anonymous"></script>
+    <script src="spriteruntimeobject.js" crossorigin="anonymous"></script>
+    <script src="affinetransformation.js" crossorigin="anonymous"></script>
+    <script src="CustomRuntimeObjectInstanceContainer.js" crossorigin="anonymous"></script>
+    <script src="CustomRuntimeObject.js" crossorigin="anonymous"></script>
+    <script src="CustomRuntimeObject2D.js" crossorigin="anonymous"></script>
+    <script src="indexeddb.js" crossorigin="anonymous"></script>
+    <script src="events-tools/commontools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/variabletools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/runtimescenetools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/inputtools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/objecttools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/cameratools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/soundtools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/storagetools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/stringtools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/windowtools.js" crossorigin="anonymous"></script>
+    <script src="events-tools/networktools.js" crossorigin="anonymous"></script>
+    <script src="splash/gd-logo-light.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/pixi.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/pixi-filters-tools.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/runtimegame-pixi-renderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/runtimescene-pixi-renderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/layer-pixi-renderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/pixi-image-manager.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/pixi-bitmapfont-manager.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/spriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/CustomRuntimeObject2DPixiRenderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/DebuggerPixiRenderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/loadingscreen-pixi-renderer.js" crossorigin="anonymous"></script>
+    <script src="pixi-renderers/pixi-effects-manager.js" crossorigin="anonymous"></script>
+    <script src="howler-sound-manager/howler.min.js" crossorigin="anonymous"></script>
+    <script src="howler-sound-manager/howler-sound-manager.js" crossorigin="anonymous"></script>
+    <script src="fontfaceobserver-font-manager/fontfaceobserver.js" crossorigin="anonymous"></script>
+    <script src="fontfaceobserver-font-manager/fontfaceobserver-font-manager.js" crossorigin="anonymous"></script>
+    <script src="gdjs-evtsext__flash__colortint-func.js" crossorigin="anonymous"></script>
+    <script src="gdjs-evtsext__flash__istinted-func.js" crossorigin="anonymous"></script>
+    <script src="gdjs-evtsext__flash__togglecolortint-func.js" crossorigin="anonymous"></script>
+    <script src="gdjs-evtsext__flash__togglevisibility-func.js" crossorigin="anonymous"></script>
+    <script src="Extensions/TextObject/textruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
+    <script src="Extensions/TextObject/textruntimeobject.js" crossorigin="anonymous"></script>
+    <script src="Extensions/TweenBehavior/TweenManager.js" crossorigin="anonymous"></script>
+    <script src="Extensions/TweenBehavior/tweenruntimebehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/AnimatableBehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/EffectBehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/FlippableBehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/OpacityBehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/ResizableBehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/ScalableBehavior.js" crossorigin="anonymous"></script>
+    <script src="object-capabilities/TextContainerBehavior.js" crossorigin="anonymous"></script>
+    <script src="Extensions/3D/DirectionalLight.js" crossorigin="anonymous"></script>
+    <script src="Extensions/3D/HemisphereLight.js" crossorigin="anonymous"></script>
+    <script src="code0.js" crossorigin="anonymous"></script>
+    <script src="code1.js" crossorigin="anonymous"></script>
+    <script src="code2.js" crossorigin="anonymous"></script>
+    <script src="code3.js" crossorigin="anonymous"></script>
+    <script src="code4.js" crossorigin="anonymous"></script>
+    <script src="code5.js" crossorigin="anonymous"></script>
+    <script src="code6.js" crossorigin="anonymous"></script>
+    <script src="code7.js" crossorigin="anonymous"></script>
+    <script src="code8.js" crossorigin="anonymous"></script>
+    <script src="code9.js" crossorigin="anonymous"></script>
+    <script src="code10.js" crossorigin="anonymous"></script>
+    <script src="data.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
+<div id="game-container"></div>
+
 <script>
 (function() {
-
     var vw = window.innerWidth;
     var vh = window.innerHeight;
     var isPortrait = vh > vw;
 
+    // Если портрет — поворачиваем контейнер
+    if (isPortrait) {
+        var container = document.getElementById('game-container');
+        container.style.transform = 'rotate(90deg)';
+        container.style.width = vh + 'px';
+        container.style.height = vw + 'px';
+    }
+
+    // Перехват тачей в capture phase — ДО GDevelop
+    if (isPortrait) {
+        function transformCoords(clientX, clientY) {
+            return {
+                x: vh - clientY,
+                y: clientX
+            };
+        }
+
+        function patchTouches(e) {
+            for (var i = 0; i < e.changedTouches.length; i++) {
+                var t = e.changedTouches[i];
+                var r = transformCoords(t.clientX, t.clientY);
+                Object.defineProperty(t, 'clientX', { value: r.x, writable: false });
+                Object.defineProperty(t, 'clientY', { value: r.y, writable: false });
+                Object.defineProperty(t, 'pageX', { value: r.x, writable: false });
+                Object.defineProperty(t, 'pageY', { value: r.y, writable: false });
+            }
+        }
+
+        document.addEventListener('touchstart', patchTouches, true);
+        document.addEventListener('touchmove', patchTouches, true);
+        document.addEventListener('touchend', patchTouches, true);
+    }
+
+    // Перехватываем добавление canvas в body — перемещаем в контейнер
+    var observer = new MutationObserver(function(mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+            for (var j = 0; j < mutations[i].addedNodes.length; j++) {
+                var node = mutations[i].addedNodes[j];
+                if (node.tagName === 'CANVAS') {
+                    var cont = document.getElementById('game-container');
+                    cont.appendChild(node);
+                    observer.disconnect();
+                    return;
+                }
+            }
+        }
+    });
+    observer.observe(document.body, { childList: true });
+
+    // Запуск GDevelop — canvas создаётся в body, observer перемещает его в контейнер
     var game = new gdjs.RuntimeGame(gdjs.projectData, {});
     game.getRenderer().createStandardCanvas(document.body);
     game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
-
-    var canvas = document.querySelector('canvas');
-
-    if (isPortrait) {
-        // Телефон вертикально — поворачиваем canvas на 90° вправо
-        // Canvas рисует игру 1920x1080
-        // Экран телефона например 412x915 (portrait)
-        // После поворота: ширина canvas (1920) ложится на высоту экрана (915)
-        //                  высота canvas (1080) ложится на ширину экрана (412)
-
-        canvas.style.position = 'fixed';
-        canvas.style.transformOrigin = 'top left';
-        canvas.style.transform = 'rotate(90deg) translateY(-100%)';
-        canvas.style.width = vh + 'px';
-        canvas.style.height = vw + 'px';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-
-        // Перехват тачей — пересчёт координат
-        // При rotate(90deg) translateY(-100%):
-        // Визуально canvas занимает весь экран
-        // Палец (screenX, screenY) -> координаты в canvas:
-        //   canvasX = screenY / vh * canvasWidth
-        //   canvasY = (1 - screenX / vw) * canvasHeight
-
-        var origOnTouchStart = game.getInputManager().onTouchStart.bind(game.getInputManager());
-        var origOnTouchMove = game.getInputManager().onTouchMove.bind(game.getInputManager());
-
-        function remapTouch(clientX, clientY) {
-            var cw = canvas.width;
-            var ch = canvas.height;
-            var gameX = (clientY / vh) * cw;
-            var gameY = (1 - clientX / vw) * ch;
-            return { x: gameX, y: gameY };
-        }
-
-        canvas.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            for (var i = 0; i < e.changedTouches.length; i++) {
-                var t = e.changedTouches[i];
-                var r = remapTouch(t.clientX, t.clientY);
-                origOnTouchStart(t.identifier, r.x, r.y);
-            }
-        }, true);
-
-        canvas.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            for (var i = 0; i < e.changedTouches.length; i++) {
-                var t = e.changedTouches[i];
-                var r = remapTouch(t.clientX, t.clientY);
-                origOnTouchMove(t.identifier, r.x, r.y);
-            }
-        }, true);
-
-        canvas.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            for (var i = 0; i < e.changedTouches.length; i++) {
-                game.getInputManager().onTouchEnd(e.changedTouches[i].identifier);
-            }
-        }, true);
-    }
-
     game.loadAllAssets(function() {
         game.startGameLoop();
     });
