@@ -105,22 +105,17 @@
     <script src="code10.js"></script>
     <script src="data.js"></script>
 
-    <!-- ===== ПАТЧ ПОВОРОТА ДЛЯ ТЕЛЕГРАМ ===== -->
+    <!-- ===== ПАТЧ ПОВОРОТА ДЛЯ ТЕЛЕГРАМ v3 ===== -->
     <script>
     (function() {
-        // Находим класс рендерера
         var Renderer = gdjs.RuntimeGamePixiRenderer || gdjs.RuntimeGameRenderer;
         if (!Renderer) { console.error("PATCH: Renderer class not found!"); return; }
 
         var proto = Renderer.prototype;
 
-        // Сохраняем оригинальный _resizeCanvas
-        var originalResize = proto._resizeCanvas;
-
         proto._resizeCanvas = function() {
             if (!this._pixiRenderer || !this._domElementsContainer) return;
 
-            // Размеры пиксель-рендерера подгоняем если надо
             if (this._pixiRenderer.width !== this._game.getGameResolutionWidth() ||
                 this._pixiRenderer.height !== this._game.getGameResolutionHeight()) {
                 this._pixiRenderer.resize(
@@ -137,7 +132,6 @@
             if (winW < 0) winW = 0;
             if (winH < 0) winH = 0;
 
-            // Определяем: мобильный + портретный экран + ландшафтная игра
             var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             var isPortrait = winH > winW;
             var isLandscapeGame = gameW > gameH;
@@ -147,7 +141,6 @@
 
             var availW, availH;
             if (needRotate) {
-                // Свапаем: ширина экрана становится доступной высотой для игры и наоборот
                 availW = winH;
                 availH = winW;
             } else {
@@ -175,16 +168,17 @@
             if (!canvas) return;
 
             if (needRotate) {
-                // Canvas рисуется в размере canvasW x canvasH,
-                // потом поворачивается на 90° — визуально canvasH становится шириной экрана
-                var left = (winW - canvasH) / 2;
-                var top = (winH - canvasW) / 2;
+                // Центрируем НЕПОВЁРНУТЫЙ элемент (canvasW x canvasH) по центру экрана.
+                // rotate(-90deg) — против часовой — чтобы при повороте телефона
+                // вправо (стандартный ландшафт) игра была правильно ориентирована.
+                var left = (winW - canvasW) / 2;
+                var top = (winH - canvasH) / 2;
                 canvas.style.position = 'absolute';
                 canvas.style.top = top + 'px';
                 canvas.style.left = left + 'px';
                 canvas.style.width = canvasW + 'px';
                 canvas.style.height = canvasH + 'px';
-                canvas.style.transform = 'rotate(90deg)';
+                canvas.style.transform = 'rotate(-90deg)';
                 canvas.style.transformOrigin = 'center center';
             } else {
                 var left = (winW - canvasW) / 2;
@@ -204,7 +198,6 @@
             }
         };
 
-        // Патчим пересчёт координат тача
         proto.convertPageToGameCoords = function(pageX, pageY) {
             var canvas = this._gameCanvas;
             if (!canvas) return [0, 0];
@@ -213,15 +206,12 @@
                 var rect = canvas.getBoundingClientRect();
                 var cx = rect.left + rect.width / 2;
                 var cy = rect.top + rect.height / 2;
-
-                // Координаты относительно центра визуального прямоугольника
                 var px = pageX - cx;
                 var py = pageY - cy;
-
-                // Обратный поворот 90° CW: (px, py) -> (py, -px)
-                var gx = py + this._canvasWidth / 2;
-                var gy = -px + this._canvasHeight / 2;
-
+                // Обратный поворот для rotate(-90deg) CCW:
+                // undo CCW = CW: (px, py) -> (-py, px)
+                var gx = -py + this._canvasWidth / 2;
+                var gy = px + this._canvasHeight / 2;
                 var coordX = gx * this._game.getGameResolutionWidth() / (this._canvasWidth || 1);
                 var coordY = gy * this._game.getGameResolutionHeight() / (this._canvasHeight || 1);
                 return [coordX, coordY];
@@ -234,10 +224,9 @@
             return [ox, oy];
         };
 
-        console.log("PATCH: rotation patch applied OK");
+        console.log("PATCH: rotation patch v3 (-90deg) applied OK");
     })();
     </script>
-    <!-- ===== КОНЕЦ ПАТЧА ===== -->
 
 </head>
 <body>
