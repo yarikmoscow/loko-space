@@ -1,4 +1,4 @@
-var gdjs;
+﻿var gdjs;
 (function (l) {
   const d = new l.Logger("PIXI game renderer"),
     g = [37, 38, 39, 40],
@@ -267,67 +267,49 @@ var gdjs;
 
         this._canvasWidth = s;
         this._canvasHeight = r;
-        return;
-      }
 
-      let u = n;
-      let m = i;
-
-      if (!this._keepRatio) {
-        u = a;
-        m = o;
       } else {
-        let R = a / n;
-        if (i * R > o) R = o / i;
-        u = n * R;
-        m = i * R;
+        let u = n;
+        let m = i;
+
+        if (!this._keepRatio) {
+          u = a;
+          m = o;
+        } else {
+          let R = o / m;
+          if (u * R > a) R = a / u;
+          u *= R;
+          m *= R;
+        }
+
+        const cX = this._marginLeft + o / 2;
+        const cY = this._marginTop + a / 2;
+
+        f = cX - m / 2;
+        t = cY - u / 2;
+        s = m;
+        r = u;
+
+        if (this._gameCanvas) {
+          this._gameCanvas.style.left = f + "px";
+          this._gameCanvas.style.top = t + "px";
+          this._gameCanvas.style.width = s + "px";
+          this._gameCanvas.style.height = r + "px";
+          this._gameCanvas.style.transform = "rotate(-90deg)";
+          this._gameCanvas.style.transformOrigin = "center center";
+        }
+
+        this._domElementsContainer.style.left = f + "px";
+        this._domElementsContainer.style.top = t + "px";
+        this._domElementsContainer.style.width = s + "px";
+        this._domElementsContainer.style.height = r + "px";
+        this._domElementsContainer.style.transform = "rotate(-90deg)";
+
+        this._canvasWidth = s;
+        this._canvasHeight = r;
       }
-
-      const R = u;
-      const M = m;
-      const C = M;
-      const P = R;
-
-      f = this._marginLeft + (o - C) / 2;
-      t = this._marginTop + (a - P) / 2;
-      s = C;
-      r = P;
-
-      if (this._gameCanvas) {
-        this._gameCanvas.style.left = f + "px";
-        this._gameCanvas.style.top = t + P + "px";
-        this._gameCanvas.style.width = R + "px";
-        this._gameCanvas.style.height = M + "px";
-        this._gameCanvas.style.transform = "rotate(-90deg)";
-        this._gameCanvas.style.transformOrigin = "top left";
-      }
-
-      this._domElementsContainer.style.top = t + "px";
-      this._domElementsContainer.style.left = f + "px";
-      this._domElementsContainer.style.width = s + "px";
-      this._domElementsContainer.style.height = r + "px";
-      this._domElementsContainer.style.transform = "none";
-
-      this._canvasWidth = s;
-      this._canvasHeight = r;
     }
 
-    keepAspectRatio(e) {
-      if (this._keepRatio !== e) {
-        this._keepRatio = e;
-        this._resizeCanvas();
-      }
-    }
-
-    setMargins(e, n, i, o) {
-      this._throwIfDisposed();
-      if (
-        this._marginTop === e &&
-        this._marginRight === n &&
-        this._marginBottom === i &&
-        this._marginLeft === o
-      )
-        return;
 
       this._marginTop = e;
       this._marginRight = n;
