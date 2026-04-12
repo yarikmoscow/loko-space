@@ -159,7 +159,7 @@ if (isConditionTrue_0) {
 }
 {gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, true, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, true, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 {for(var i = 0, len = gdjs.SettingsCode.GDBtnMusicToggleObjects1.length ;i < len;++i) {
     gdjs.SettingsCode.GDBtnMusicToggleObjects1[i].getBehavior("Animation").setAnimationIndex(1 - gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)));
