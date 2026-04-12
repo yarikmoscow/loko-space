@@ -15,6 +15,8 @@ gdjs.SettingsCode.GDSFXObjects1= [];
 gdjs.SettingsCode.GDSFXObjects2= [];
 gdjs.SettingsCode.GDBtnSfxToggleObjects1= [];
 gdjs.SettingsCode.GDBtnSfxToggleObjects2= [];
+gdjs.SettingsCode.GDFadeOverlayObjects1= [];
+gdjs.SettingsCode.GDFadeOverlayObjects2= [];
 
 
 gdjs.SettingsCode.mapOfGDgdjs_9546SettingsCode_9546GDBtnBackObjects1Objects = Hashtable.newFrom({"BtnBack": gdjs.SettingsCode.GDBtnBackObjects1});
@@ -35,11 +37,20 @@ isConditionTrue_0 = false;
 }
 if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("BtnMusicToggle"), gdjs.SettingsCode.GDBtnMusicToggleObjects1);
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.SettingsCode.GDFadeOverlayObjects1);
 {for(var i = 0, len = gdjs.SettingsCode.GDBtnMusicToggleObjects1.length ;i < len;++i) {
     gdjs.SettingsCode.GDBtnMusicToggleObjects1[i].getBehavior("Animation").setAnimationName("вкл");
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, true, 70, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, true, 70, 1);
+}
+{for(var i = 0, len = gdjs.SettingsCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.SettingsCode.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
+}
+}
+{for(var i = 0, len = gdjs.SettingsCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.SettingsCode.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
+}
 }
 }
 
@@ -224,6 +235,8 @@ gdjs.SettingsCode.GDSFXObjects1.length = 0;
 gdjs.SettingsCode.GDSFXObjects2.length = 0;
 gdjs.SettingsCode.GDBtnSfxToggleObjects1.length = 0;
 gdjs.SettingsCode.GDBtnSfxToggleObjects2.length = 0;
+gdjs.SettingsCode.GDFadeOverlayObjects1.length = 0;
+gdjs.SettingsCode.GDFadeOverlayObjects2.length = 0;
 
 gdjs.SettingsCode.eventsList0(runtimeScene);
 gdjs.SettingsCode.GDNewSpriteObjects1.length = 0;
@@ -240,6 +253,8 @@ gdjs.SettingsCode.GDSFXObjects1.length = 0;
 gdjs.SettingsCode.GDSFXObjects2.length = 0;
 gdjs.SettingsCode.GDBtnSfxToggleObjects1.length = 0;
 gdjs.SettingsCode.GDBtnSfxToggleObjects2.length = 0;
+gdjs.SettingsCode.GDFadeOverlayObjects1.length = 0;
+gdjs.SettingsCode.GDFadeOverlayObjects2.length = 0;
 
 
 return;

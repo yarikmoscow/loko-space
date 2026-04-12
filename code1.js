@@ -938,11 +938,11 @@ gdjs.copyArray(runtimeScene.getObjects("Mascot"), gdjs.GameCode.GDMascotObjects1
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(0).getAsNumber() > 50);
+{isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(0).getAsNumber() > 300);
 }
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
-{isConditionTrue_0 = runtimeScene.getOnceTriggers().triggerOnce(14937916);
+{isConditionTrue_0 = runtimeScene.getOnceTriggers().triggerOnce(15044092);
 }
 }
 if (isConditionTrue_0) {

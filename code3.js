@@ -28,15 +28,12 @@ gdjs.Game_95Level3Code.GDgalaxyObjects3= [];
 gdjs.Game_95Level3Code.GDGagarinObjects1= [];
 gdjs.Game_95Level3Code.GDGagarinObjects2= [];
 gdjs.Game_95Level3Code.GDGagarinObjects3= [];
-gdjs.Game_95Level3Code.GDMASKOTObjects1= [];
-gdjs.Game_95Level3Code.GDMASKOTObjects2= [];
-gdjs.Game_95Level3Code.GDMASKOTObjects3= [];
-gdjs.Game_95Level3Code.GDmet_95954Objects1= [];
-gdjs.Game_95Level3Code.GDmet_95954Objects2= [];
-gdjs.Game_95Level3Code.GDmet_95954Objects3= [];
 gdjs.Game_95Level3Code.GDstar1Objects1= [];
 gdjs.Game_95Level3Code.GDstar1Objects2= [];
 gdjs.Game_95Level3Code.GDstar1Objects3= [];
+gdjs.Game_95Level3Code.GDFadeOverlayObjects1= [];
+gdjs.Game_95Level3Code.GDFadeOverlayObjects2= [];
+gdjs.Game_95Level3Code.GDFadeOverlayObjects3= [];
 
 
 gdjs.Game_95Level3Code.mapOfGDgdjs_9546Game_959595Level3Code_9546GDMeteorObjects2Objects = Hashtable.newFrom({"Meteor": gdjs.Game_95Level3Code.GDMeteorObjects2});
@@ -501,6 +498,7 @@ let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.Game_95Level3Code.GDFadeOverlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("LivesText"), gdjs.Game_95Level3Code.GDLivesTextObjects1);
 gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.Game_95Level3Code.GDstar1Objects1);
 {runtimeScene.getGame().getVariables().getFromIndex(0).setNumber(0);
@@ -523,6 +521,14 @@ gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.Game_95Level3Code.GDstar1O
 }
 {for(var i = 0, len = gdjs.Game_95Level3Code.GDstar1Objects1.length ;i < len;++i) {
     gdjs.Game_95Level3Code.GDstar1Objects1[i].getBehavior("Animation").setAnimationName("idle");
+}
+}
+{for(var i = 0, len = gdjs.Game_95Level3Code.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.Game_95Level3Code.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
+}
+}
+{for(var i = 0, len = gdjs.Game_95Level3Code.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.Game_95Level3Code.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
 }
 }
 }
@@ -568,7 +574,7 @@ isConditionTrue_0 = false;
 if (isConditionTrue_0) {
 {gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/3lvlITOG.ogg", 0, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/LVL3_ITOGFREE.ogg", 0, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 }
 
@@ -1213,15 +1219,12 @@ gdjs.Game_95Level3Code.GDgalaxyObjects3.length = 0;
 gdjs.Game_95Level3Code.GDGagarinObjects1.length = 0;
 gdjs.Game_95Level3Code.GDGagarinObjects2.length = 0;
 gdjs.Game_95Level3Code.GDGagarinObjects3.length = 0;
-gdjs.Game_95Level3Code.GDMASKOTObjects1.length = 0;
-gdjs.Game_95Level3Code.GDMASKOTObjects2.length = 0;
-gdjs.Game_95Level3Code.GDMASKOTObjects3.length = 0;
-gdjs.Game_95Level3Code.GDmet_95954Objects1.length = 0;
-gdjs.Game_95Level3Code.GDmet_95954Objects2.length = 0;
-gdjs.Game_95Level3Code.GDmet_95954Objects3.length = 0;
 gdjs.Game_95Level3Code.GDstar1Objects1.length = 0;
 gdjs.Game_95Level3Code.GDstar1Objects2.length = 0;
 gdjs.Game_95Level3Code.GDstar1Objects3.length = 0;
+gdjs.Game_95Level3Code.GDFadeOverlayObjects1.length = 0;
+gdjs.Game_95Level3Code.GDFadeOverlayObjects2.length = 0;
+gdjs.Game_95Level3Code.GDFadeOverlayObjects3.length = 0;
 
 gdjs.Game_95Level3Code.eventsList3(runtimeScene);
 gdjs.Game_95Level3Code.GDMascotObjects1.length = 0;
@@ -1251,15 +1254,12 @@ gdjs.Game_95Level3Code.GDgalaxyObjects3.length = 0;
 gdjs.Game_95Level3Code.GDGagarinObjects1.length = 0;
 gdjs.Game_95Level3Code.GDGagarinObjects2.length = 0;
 gdjs.Game_95Level3Code.GDGagarinObjects3.length = 0;
-gdjs.Game_95Level3Code.GDMASKOTObjects1.length = 0;
-gdjs.Game_95Level3Code.GDMASKOTObjects2.length = 0;
-gdjs.Game_95Level3Code.GDMASKOTObjects3.length = 0;
-gdjs.Game_95Level3Code.GDmet_95954Objects1.length = 0;
-gdjs.Game_95Level3Code.GDmet_95954Objects2.length = 0;
-gdjs.Game_95Level3Code.GDmet_95954Objects3.length = 0;
 gdjs.Game_95Level3Code.GDstar1Objects1.length = 0;
 gdjs.Game_95Level3Code.GDstar1Objects2.length = 0;
 gdjs.Game_95Level3Code.GDstar1Objects3.length = 0;
+gdjs.Game_95Level3Code.GDFadeOverlayObjects1.length = 0;
+gdjs.Game_95Level3Code.GDFadeOverlayObjects2.length = 0;
+gdjs.Game_95Level3Code.GDFadeOverlayObjects3.length = 0;
 
 
 return;

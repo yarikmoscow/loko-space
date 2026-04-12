@@ -15,6 +15,8 @@ gdjs.GameOverCode.GDBtnRetryObjects1= [];
 gdjs.GameOverCode.GDBtnRetryObjects2= [];
 gdjs.GameOverCode.GDpoflozhka2Objects1= [];
 gdjs.GameOverCode.GDpoflozhka2Objects2= [];
+gdjs.GameOverCode.GDFadeOverlayObjects1= [];
+gdjs.GameOverCode.GDFadeOverlayObjects2= [];
 
 
 gdjs.GameOverCode.mapOfGDgdjs_9546GameOverCode_9546GDBtnRetryObjects1Objects = Hashtable.newFrom({"BtnRetry": gdjs.GameOverCode.GDBtnRetryObjects1});
@@ -28,16 +30,25 @@ let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.GameOverCode.GDFadeOverlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("FinalScoreText"), gdjs.GameOverCode.GDFinalScoreTextObjects1);
 {for(var i = 0, len = gdjs.GameOverCode.GDFinalScoreTextObjects1.length ;i < len;++i) {
     gdjs.GameOverCode.GDFinalScoreTextObjects1[i].getBehavior("Text").setText("Очки: " + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0))));
 }
 }
 {for(var i = 0, len = gdjs.GameOverCode.GDFinalScoreTextObjects1.length ;i < len;++i) {
-    gdjs.GameOverCode.GDFinalScoreTextObjects1[i].setX(320 - (gdjs.GameOverCode.GDFinalScoreTextObjects1[i].getWidth()) / 2);
+    gdjs.GameOverCode.GDFinalScoreTextObjects1[i].setX(960 - (gdjs.GameOverCode.GDFinalScoreTextObjects1[i].getWidth()) / 2);
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+}
+{for(var i = 0, len = gdjs.GameOverCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.GameOverCode.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
+}
+}
+{for(var i = 0, len = gdjs.GameOverCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.GameOverCode.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
+}
 }
 }
 
@@ -105,6 +116,8 @@ gdjs.GameOverCode.GDBtnRetryObjects1.length = 0;
 gdjs.GameOverCode.GDBtnRetryObjects2.length = 0;
 gdjs.GameOverCode.GDpoflozhka2Objects1.length = 0;
 gdjs.GameOverCode.GDpoflozhka2Objects2.length = 0;
+gdjs.GameOverCode.GDFadeOverlayObjects1.length = 0;
+gdjs.GameOverCode.GDFadeOverlayObjects2.length = 0;
 
 gdjs.GameOverCode.eventsList0(runtimeScene);
 gdjs.GameOverCode.GDGameOverTextObjects1.length = 0;
@@ -121,6 +134,8 @@ gdjs.GameOverCode.GDBtnRetryObjects1.length = 0;
 gdjs.GameOverCode.GDBtnRetryObjects2.length = 0;
 gdjs.GameOverCode.GDpoflozhka2Objects1.length = 0;
 gdjs.GameOverCode.GDpoflozhka2Objects2.length = 0;
+gdjs.GameOverCode.GDFadeOverlayObjects1.length = 0;
+gdjs.GameOverCode.GDFadeOverlayObjects2.length = 0;
 
 
 return;

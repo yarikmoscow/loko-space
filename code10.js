@@ -42,7 +42,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene5Code.GDNewTextO
     gdjs.Cutscene5Code.GDBtnContinueObjects1[i].hide();
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/ITOG_FINAL_96_2.ogg", 0, false, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/finalFREE.ogg", 0, false, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "DelayTimer");
 }
@@ -66,7 +66,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene5Code.GDNewTextO
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "DelayTimer") > 7.5;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "DelayTimer") > 3;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 {isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(6).getAsNumber() == 0);
@@ -87,7 +87,7 @@ if (isConditionTrue_0) {
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "TypeTimer") > 0.075;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "TypeTimer") > 0.045;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 {isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(3).getAsNumber() < gdjs.evtTools.string.strLen(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(0))));
@@ -187,7 +187,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene5Code.GDNewTextO
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
 }
 {for(var i = 0, len = gdjs.Cutscene5Code.GDNewTextObjects1.length ;i < len;++i) {
-    gdjs.Cutscene5Code.GDNewTextObjects1[i].setPosition(32,32);
+    gdjs.Cutscene5Code.GDNewTextObjects1[i].setPosition(96,800);
 }
 }
 }
@@ -262,7 +262,7 @@ if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("NewSprite"), gdjs.Cutscene5Code.GDNewSpriteObjects1);
 gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene5Code.GDNewTextObjects1);
 {for(var i = 0, len = gdjs.Cutscene5Code.GDNewTextObjects1.length ;i < len;++i) {
-    gdjs.Cutscene5Code.GDNewTextObjects1[i].setPosition(32,32);
+    gdjs.Cutscene5Code.GDNewTextObjects1[i].setPosition(96,800);
 }
 }
 {runtimeScene.getScene().getVariables().getFromIndex(5).setNumber(3);

@@ -528,7 +528,7 @@ gdjs.copyArray(runtimeScene.getObjects("star1"), gdjs.Game_95Level2Code.GDstar1O
 }
 }
 {for(var i = 0, len = gdjs.Game_95Level2Code.GDFadeOverlayObjects1.length ;i < len;++i) {
-    gdjs.Game_95Level2Code.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 0.8, false);
+    gdjs.Game_95Level2Code.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
 }
 }
 }
@@ -574,7 +574,7 @@ isConditionTrue_0 = false;
 if (isConditionTrue_0) {
 {gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/2LVLitog.ogg", 0, true, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/2LVLitog.ogg", 0, true, 40 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 }
 

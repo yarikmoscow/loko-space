@@ -7,6 +7,8 @@ gdjs.Cutscene2Code.GDNewTextObjects1= [];
 gdjs.Cutscene2Code.GDNewTextObjects2= [];
 gdjs.Cutscene2Code.GDBtnContinueObjects1= [];
 gdjs.Cutscene2Code.GDBtnContinueObjects2= [];
+gdjs.Cutscene2Code.GDFadeOverlayObjects1= [];
+gdjs.Cutscene2Code.GDFadeOverlayObjects2= [];
 
 
 gdjs.Cutscene2Code.mapOfGDgdjs_9546Cutscene2Code_9546GDBtnContinueObjects1Objects = Hashtable.newFrom({"BtnContinue": gdjs.Cutscene2Code.GDBtnContinueObjects1});
@@ -22,6 +24,7 @@ isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("BtnContinue"), gdjs.Cutscene2Code.GDBtnContinueObjects1);
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.Cutscene2Code.GDFadeOverlayObjects1);
 gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene2Code.GDNewTextObjects1);
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
 }
@@ -39,7 +42,15 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene2Code.GDNewTextO
     gdjs.Cutscene2Code.GDBtnContinueObjects1[i].hide();
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/StartMenu2.ogg", 0, false, 70, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, false, 70, 1);
+}
+{for(var i = 0, len = gdjs.Cutscene2Code.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.Cutscene2Code.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
+}
+}
+{for(var i = 0, len = gdjs.Cutscene2Code.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.Cutscene2Code.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
+}
 }
 }
 
@@ -51,7 +62,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene2Code.GDNewTextO
 
 let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
-isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "TypeTimer") > 0.03;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.getTimerElapsedTimeInSecondsOrNaN(runtimeScene, "TypeTimer") > 0.01;
 if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 {isConditionTrue_0 = (runtimeScene.getScene().getVariables().getFromIndex(3).getAsNumber() < gdjs.evtTools.string.strLen(gdjs.evtTools.variable.getVariableString(runtimeScene.getScene().getVariables().getFromIndex(0))));
@@ -146,7 +157,7 @@ gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene2Code.GDNewTextO
 {gdjs.evtTools.runtimeScene.resetTimer(runtimeScene, "TypeTimer");
 }
 {for(var i = 0, len = gdjs.Cutscene2Code.GDNewTextObjects1.length ;i < len;++i) {
-    gdjs.Cutscene2Code.GDNewTextObjects1[i].setPosition(32,280);
+    gdjs.Cutscene2Code.GDNewTextObjects1[i].setPosition(96,860);
 }
 }
 }
@@ -221,7 +232,7 @@ if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("NewSprite"), gdjs.Cutscene2Code.GDNewSpriteObjects1);
 gdjs.copyArray(runtimeScene.getObjects("NewText"), gdjs.Cutscene2Code.GDNewTextObjects1);
 {for(var i = 0, len = gdjs.Cutscene2Code.GDNewTextObjects1.length ;i < len;++i) {
-    gdjs.Cutscene2Code.GDNewTextObjects1[i].setPosition(32,290);
+    gdjs.Cutscene2Code.GDNewTextObjects1[i].setPosition(96,880);
 }
 }
 {runtimeScene.getScene().getVariables().getFromIndex(5).setNumber(3);
@@ -262,6 +273,8 @@ gdjs.Cutscene2Code.GDNewTextObjects1.length = 0;
 gdjs.Cutscene2Code.GDNewTextObjects2.length = 0;
 gdjs.Cutscene2Code.GDBtnContinueObjects1.length = 0;
 gdjs.Cutscene2Code.GDBtnContinueObjects2.length = 0;
+gdjs.Cutscene2Code.GDFadeOverlayObjects1.length = 0;
+gdjs.Cutscene2Code.GDFadeOverlayObjects2.length = 0;
 
 gdjs.Cutscene2Code.eventsList0(runtimeScene);
 gdjs.Cutscene2Code.GDNewSpriteObjects1.length = 0;
@@ -270,6 +283,8 @@ gdjs.Cutscene2Code.GDNewTextObjects1.length = 0;
 gdjs.Cutscene2Code.GDNewTextObjects2.length = 0;
 gdjs.Cutscene2Code.GDBtnContinueObjects1.length = 0;
 gdjs.Cutscene2Code.GDBtnContinueObjects2.length = 0;
+gdjs.Cutscene2Code.GDFadeOverlayObjects1.length = 0;
+gdjs.Cutscene2Code.GDFadeOverlayObjects2.length = 0;
 
 
 return;
