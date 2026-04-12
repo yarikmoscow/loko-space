@@ -109,85 +109,38 @@
     (function() {
         var Renderer = gdjs.RuntimeGamePixiRenderer || gdjs.RuntimeGameRenderer;
         if (!Renderer) return;
-
         var proto = Renderer.prototype;
 
         proto._resizeCanvas = function() {
             if (!this._pixiRenderer || !this._domElementsContainer) return;
-
             if (this._pixiRenderer.width !== this._game.getGameResolutionWidth() ||
                 this._pixiRenderer.height !== this._game.getGameResolutionHeight()) {
-                this._pixiRenderer.resize(
-                    this._game.getGameResolutionWidth(),
-                    this._game.getGameResolutionHeight()
-                );
+                this._pixiRenderer.resize(this._game.getGameResolutionWidth(), this._game.getGameResolutionHeight());
             }
-
             var isFullscreen = this._forceFullscreen || this._isFullPage || this._isFullscreen;
-            var gameW = this._game.getGameResolutionWidth();
-            var gameH = this._game.getGameResolutionHeight();
-            var winW = window.innerWidth - (this._marginLeft || 0) - (this._marginRight || 0);
-            var winH = window.innerHeight - (this._marginTop || 0) - (this._marginBottom || 0);
-            if (winW < 0) winW = 0;
-            if (winH < 0) winH = 0;
-
+            var gameW = this._game.getGameResolutionWidth(), gameH = this._game.getGameResolutionHeight();
+            var winW = window.innerWidth - (this._marginLeft||0) - (this._marginRight||0);
+            var winH = window.innerHeight - (this._marginTop||0) - (this._marginBottom||0);
+            if (winW < 0) winW = 0; if (winH < 0) winH = 0;
             var isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-            var isPortrait = winH > winW;
-            var isLandscapeGame = gameW > gameH;
-            var needRotate = isMobile && isPortrait && isLandscapeGame;
-
+            var needRotate = isMobile && winH > winW && gameW > gameH;
             this._isPortraitRotated = needRotate;
-
-            var availW, availH;
-            if (needRotate) {
-                availW = winH;
-                availH = winW;
-            } else {
-                availW = winW;
-                availH = winH;
-            }
-
-            var canvasW = gameW;
-            var canvasH = gameH;
-
-            if (isFullscreen && !this._keepRatio) {
-                canvasW = availW;
-                canvasH = availH;
-            } else if (isFullscreen && this._keepRatio || canvasW > availW || canvasH > availH) {
+            var availW = needRotate ? winH : winW, availH = needRotate ? winW : winH;
+            var canvasW = gameW, canvasH = gameH;
+            if (isFullscreen && !this._keepRatio) { canvasW = availW; canvasH = availH; }
+            else if (isFullscreen && this._keepRatio || canvasW > availW || canvasH > availH) {
                 var scale = availW / canvasW;
                 if (canvasH * scale > availH) scale = availH / canvasH;
-                canvasW *= scale;
-                canvasH *= scale;
+                canvasW *= scale; canvasH *= scale;
             }
-
-            this._canvasWidth = canvasW;
-            this._canvasHeight = canvasH;
-
-            var canvas = this._gameCanvas;
-            if (!canvas) return;
-
-            if (needRotate) {
-                var left = (winW - canvasW) / 2;
-                var top = (winH - canvasH) / 2;
-                canvas.style.position = 'absolute';
-                canvas.style.top = top + 'px';
-                canvas.style.left = left + 'px';
-                canvas.style.width = canvasW + 'px';
-                canvas.style.height = canvasH + 'px';
-                canvas.style.transform = 'rotate(-90deg)';
-                canvas.style.transformOrigin = 'center center';
-            } else {
-                var left = (winW - canvasW) / 2;
-                var top = (winH - canvasH) / 2;
-                canvas.style.position = 'absolute';
-                canvas.style.top = top + 'px';
-                canvas.style.left = left + 'px';
-                canvas.style.width = canvasW + 'px';
-                canvas.style.height = canvasH + 'px';
-                canvas.style.transform = '';
-                canvas.style.transformOrigin = '';
-            }
-
+            this._canvasWidth = canvasW; this._canvasHeight = canvasH;
+            var canvas = this._gameCanvas; if (!canvas) return;
+            var left = (winW - canvasW) / 2, top = (winH - canvasH) / 2;
+            canvas.style.position = 'absolute';
+            canvas.style.top = top + 'px'; canvas.style.left = left + 'px';
+            canvas.style.width = canvasW + 'px'; canvas.style.height = canvasH + 'px';
+            canvas.style.transform = needRotate ? 'rotate(-90deg)' : '';
+            canvas.style.transformOrigin = needRotate ? 'center center' : '';
             if (this._domElementsContainer) {
                 this._domElementsContainer.style.width = canvasW + 'px';
                 this._domElementsContainer.style.height = canvasH + 'px';
@@ -195,27 +148,18 @@
         };
 
         proto.convertPageToGameCoords = function(pageX, pageY) {
-            var canvas = this._gameCanvas;
-            if (!canvas) return [0, 0];
-
+            var canvas = this._gameCanvas; if (!canvas) return [0, 0];
             if (this._isPortraitRotated) {
                 var rect = canvas.getBoundingClientRect();
-                var cx = rect.left + rect.width / 2;
-                var cy = rect.top + rect.height / 2;
-                var px = pageX - cx;
-                var py = pageY - cy;
-                var gx = -py + this._canvasWidth / 2;
-                var gy = px + this._canvasHeight / 2;
-                var coordX = gx * this._game.getGameResolutionWidth() / (this._canvasWidth || 1);
-                var coordY = gy * this._game.getGameResolutionHeight() / (this._canvasHeight || 1);
-                return [coordX, coordY];
+                var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+                var px = pageX - cx, py = pageY - cy;
+                var gx = -py + this._canvasWidth/2, gy = px + this._canvasHeight/2;
+                return [gx * this._game.getGameResolutionWidth()/(this._canvasWidth||1),
+                        gy * this._game.getGameResolutionHeight()/(this._canvasHeight||1)];
             }
-
-            var ox = pageX - canvas.offsetLeft;
-            var oy = pageY - canvas.offsetTop;
-            ox *= this._game.getGameResolutionWidth() / (this._canvasWidth || 1);
-            oy *= this._game.getGameResolutionHeight() / (this._canvasHeight || 1);
-            return [ox, oy];
+            var ox = pageX - canvas.offsetLeft, oy = pageY - canvas.offsetTop;
+            return [ox * this._game.getGameResolutionWidth()/(this._canvasWidth||1),
+                    oy * this._game.getGameResolutionHeight()/(this._canvasHeight||1)];
         };
     })();
     </script>
