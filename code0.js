@@ -105,7 +105,7 @@ gdjs.copyArray(runtimeScene.getObjects("TapText"), gdjs.StartMenuCode.GDTapTextO
 gdjs.copyArray(runtimeScene.getObjects("podlozhka"), gdjs.StartMenuCode.GDpodlozhkaObjects1);
 {gdjs.evtTools.sound.stopMusicOnChannel(runtimeScene, 0);
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, true, 70, 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, true, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 {for(var i = 0, len = gdjs.StartMenuCode.GDOverlayObjects1.length ;i < len;++i) {
     gdjs.StartMenuCode.GDOverlayObjects1[i].deleteFromScene(runtimeScene);

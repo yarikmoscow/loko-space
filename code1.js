@@ -889,7 +889,7 @@ gdjs.copyArray(runtimeScene.getObjects("ScoreText"), gdjs.GameCode.GDScoreTextOb
     gdjs.GameCode.GDScoreTextObjects1[i].getBehavior("Text").setText("Очки:" + gdjs.evtTools.common.toString(gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(0))));
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/destroy1.ogg", 1, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/destroy1.ogg", 1, false, 50 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(8)), 1);
 }
 
 { //Subevents

@@ -31,26 +31,38 @@ let isConditionTrue_0 = false;
 isConditionTrue_0 = false;
 isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
 if (isConditionTrue_0) {
+gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.SettingsCode.GDFadeOverlayObjects1);
+{for(var i = 0, len = gdjs.SettingsCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.SettingsCode.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
+}
+}
+{for(var i = 0, len = gdjs.SettingsCode.GDFadeOverlayObjects1.length ;i < len;++i) {
+    gdjs.SettingsCode.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
+}
+}
+}
+
+}
+
+
+{
+
+
+let isConditionTrue_0 = false;
+isConditionTrue_0 = false;
+isConditionTrue_0 = gdjs.evtTools.runtimeScene.sceneJustBegins(runtimeScene);
+if (isConditionTrue_0) {
 isConditionTrue_0 = false;
 {isConditionTrue_0 = (runtimeScene.getGame().getVariables().getFromIndex(7).getAsNumber() == 1);
 }
 }
 if (isConditionTrue_0) {
 gdjs.copyArray(runtimeScene.getObjects("BtnMusicToggle"), gdjs.SettingsCode.GDBtnMusicToggleObjects1);
-gdjs.copyArray(runtimeScene.getObjects("FadeOverlay"), gdjs.SettingsCode.GDFadeOverlayObjects1);
 {for(var i = 0, len = gdjs.SettingsCode.GDBtnMusicToggleObjects1.length ;i < len;++i) {
     gdjs.SettingsCode.GDBtnMusicToggleObjects1[i].getBehavior("Animation").setAnimationName("вкл");
 }
 }
-{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, true, 70, 1);
-}
-{for(var i = 0, len = gdjs.SettingsCode.GDFadeOverlayObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDFadeOverlayObjects1[i].getBehavior("Tween").addObjectOpacityTween2("FadeIn", 0, "easeOutQuad", 2, false);
-}
-}
-{for(var i = 0, len = gdjs.SettingsCode.GDFadeOverlayObjects1.length ;i < len;++i) {
-    gdjs.SettingsCode.GDFadeOverlayObjects1[i].getBehavior("Opacity").setOpacity(255);
-}
+{gdjs.evtTools.sound.playMusicOnChannel(runtimeScene, "sounds/startMUSICinter.ogg", 0, true, 70 * gdjs.evtTools.variable.getVariableNumber(runtimeScene.getGame().getVariables().getFromIndex(7)), 1);
 }
 }
 
